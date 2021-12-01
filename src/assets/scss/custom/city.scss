@@ -1,0 +1,52 @@
+ul,li{
+  list-style: none;
+}
+
+.horizon-scroll {
+  display: flex;
+  flex-direction: row;
+  margin-top: 30px;
+}
+// 單層圖片
+.hotCity-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 202px;
+  height: 245px;
+  background: #ffffff;
+  box-shadow: 0px 4px 3px rgba(13, 11, 12, 0.2);
+}
+
+.hotCity-img {
+  width: 177px;
+  height: 217px;
+  background: #0d0b0c;
+}
+// 雙層圖片
+.hotCity-double-wrapper{
+  width: 202px;
+  height: 245px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-top: -30px;
+  margin-right: 13px;
+  background: #ffffff;
+  box-shadow: 0px 4px 3px rgba(13, 11, 12, 0.2);
+}
+.hotCity-double-img{
+  margin-top: 30px;
+  width: 185px;
+  height: 106px;
+  background: #0D0B0C;
+}
+
+.hotCity-text {
+  font-family: Noto Sans TC;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 29px;
+  color: #ffffff;
+}

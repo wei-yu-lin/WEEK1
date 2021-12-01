@@ -1,0 +1,41 @@
+@import "bootstrap/scss/_functions.scss";
+@import "../helpers/_variables";
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap");
+
+.home-content {
+  height: 100vh;
+}
+.banner {
+  height: 490px;
+  background-image: url("@/assets/images/beach.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+}
+
+.home-text {
+  position: sticky;
+  // width: 486px;
+  height: 70px;
+
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: bold;
+  font-size: 50px;
+  line-height: 59px;
+  text-align: center;
+
+  color: #ffffff;
+
+  text-shadow: 0px 4px 3px rgba(13, 11, 12, 0.2);
+}
+.theme-text{
+  font-family: Noto Sans TC;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 29px;
+  letter-spacing: 0em;
+  text-align: left;
+  margin-bottom: 0;
+}
