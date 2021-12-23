@@ -1,6 +1,7 @@
 <script setup>
   import NavBar from "@/components/NavBar.vue";
   import City from "@/views/Home/City.vue"
+  import Events from "@/views/Home/Events.vue"
   import TextCircle from "@/assets/images/Text-Circle.svg";
   import TextSquare from "@/assets/images/Text-Square.svg";
   import TextTriangle from "@/assets/images/Text-Triangle.svg";
@@ -10,15 +11,17 @@
 <template>
   <div class="container-fluid">
     <NavBar />
-    <div class="home-content">
       <div class="banner">
         <div class="row justify-content-center align-items-center h-100" >
           <p class="home-text">Welc<TextCircle/>me t<TextSquare/> Ta<span class="d-inline-flex flex-column align-items-center home-text"><TextTriangle/><TextRectangle/></span>wan</p>
         </div>
       </div>
-      <City/>
-    </div>
   </div>
+    <div class="container">
+      <City/>
+      <Events/>
+    </div>
+
 </template>
 
 <style lang="scss">

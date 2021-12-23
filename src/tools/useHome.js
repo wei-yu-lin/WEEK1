@@ -1,9 +1,12 @@
-import { useRoute } from "vue-router";
+// Npm Moudle
 import { Observable } from "rxjs";
+//Vue lib
+import { useRoute } from "vue-router";
 import { ref, reactive, computed, watch } from "vue";
-// 自訂
+//台灣城市名稱
 import { city } from "@/tools/cityName.js";
-import { getScenicSpot } from "@/api";
+//取得熱門景點資料
+import { getScenicSpot, getTourismActivity } from "@/api";
 
 export function useHome() {
   const route = useRoute();
@@ -70,10 +73,7 @@ export function useHome() {
   watch(curPage, () => refetch());
 
   const searchKeyword = ref("");
-  const setSearchKeyword = (v) => {
-    searchKeyword.value = v;
-    refetch();
-  };
+
 
   const clearSearchHistory = () => {
     searchHistory.splice(0, searchHistory.length);
@@ -134,19 +134,6 @@ export function useHome() {
     searchByKeyword();
   };
 
-  const selectedType = reactive({
-    text: "",
-    value: "",
-  });
-
-  const setSelectedType = (value) => {
-    if (!value) return;
-    selectedType.value = value.value;
-    selectedType.text = value.text;
-
-    curPage.value = 1;
-    refetch();
-  };
 
   const selectedCity = reactive({
     City: "",
@@ -204,17 +191,19 @@ export function useHome() {
         },
         complete: () => {
           hotCity.splice(0, hotCity.length); // 清空陣列
-
           hotCity.push(
-            ...arr
-            // ...arr.reduce((res, cur, idx) => {
-            //   const chunckIndex = Math.floor(idx / 3);
-            //   if (!res[chunckIndex]) {
-            //     res[chunckIndex] = [];
-            //   }
-            //   res[chunckIndex].push(cur);
-            //   return res;
-            // }, [])
+            ...arr.reduce((prev, cur, idx) => {
+              const chunckIndex = Math.floor(idx / 7);
+                if (!prev[chunckIndex]){
+                  prev[chunckIndex] = []
+                  prev[chunckIndex].push(cur)
+                } else {
+                  prev[chunckIndex].push(cur)
+                }
+
+              return prev
+
+            }, [])
           );
           loadingCount.value -= 1;
         },
@@ -224,9 +213,62 @@ export function useHome() {
     }
   };
 
+
+  const fetchHotEvent = async () => {
+    try {
+      const getCityActivity = async (city) => {
+
+        //取得各縣市第一張照片，並與city的object回傳
+        const resp = (await getTourismActivity({ city: city.City })).data;
+        const [firstGet] = shuffle(resp);
+        const image = firstGet?.Picture?.PictureUrl1;
+        return { ...city, image };
+      };
+      const city$ = new Observable((subscriber) => {
+        const cities = shuffle(cityOptions);
+        cities.forEach((el, ind) => {
+          if (ind<=3){
+            getCityActivity(el)
+          }
+        });
+      });
+
+      const arr = [];
+      city$.subscribe({
+        next: (x) => {
+          arr.push(x);
+        },
+        error: (error) => {
+          console.error(error);
+          loadingCount.value -= 1;
+        },
+        complete: () => {
+          hotCity.splice(0, hotCity.length); // 清空陣列
+          hotCity.push(
+            ...arr.reduce((prev, cur, idx) => {
+              const chunckIndex = Math.floor(idx / 7);
+              if (!prev[chunckIndex]) {
+                prev[chunckIndex] = [];
+                prev[chunckIndex].push(cur);
+              } else {
+                prev[chunckIndex].push(cur);
+              }
+
+              return prev;
+            }, [])
+          );
+          loadingCount.value -= 1;
+        },
+      });
+
+    } catch (error) {
+      console.error(error);
+    }
+
+  }
   const fetchData = async () => {
     fetchHotCity()
-    //   fetchHotActivity()
+    fetchHotEvent()
     //   fetchRestaurant()
     //   fetchHotel()
   };

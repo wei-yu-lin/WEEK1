@@ -35,11 +35,9 @@ axios.interceptors.response.use(
 );
 
 function axiosRequest(url, method) {
-  return new Promise((resovle, reject) => {
-    axios({ method, url })
-    .then(resovle)
-    .catch(reject);
-  });
+  return new Promise((resovle, reject) =>
+    axios({ method, url }).then(resovle).catch(reject)
+  );
 }
 axios.defaults.baseURL = import.meta.env.VITE_API_PATH;
 

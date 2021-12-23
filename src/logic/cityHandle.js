@@ -1,20 +1,42 @@
-import { ref, reactive, computed, watch } from "vue";
+import {ref} from 'vue'
+export function hotCityLogic() {
+  const page = ref(0);
 
-export const sortImage = (hotCity) => {
-  console.log(hotCity);
-  const oddData = {}
-  hotCity.forEach((el, ind) => {
-    if (ind % 2 == 1) {
-      oddData[el.CityID] = {
-        single:true,
-        double:false
+  const cityMove = (loc,len) => {
+    if (loc) {
+      page.value += 1;
+      if(page.value >= len){
+        page.value = 0
       }
     } else {
-      oddData[el.CityID] = {
-        single: false,
-        double: true,
-      };
+      page.value -= 1;
+      if (page.value <= 0) {
+        page.value = len -1
+      }
     }
-  });
-  return oddData
-};
+  };
+
+  const sortImage = (hotCity, page) => {
+    const oddData = {};
+    hotCity[page].forEach((el, ind) => {
+      if (ind % 3 == 1 || ind % 3 == 2) {
+        oddData[el.CityID] = {
+          single: false,
+          double: true,
+        };
+      } else {
+        oddData[el.CityID] = {
+          single: true,
+          double: false,
+        };
+      }
+    });
+    return oddData;
+  };
+
+  return {
+    cityMove,
+    sortImage,
+    page,
+  };
+}

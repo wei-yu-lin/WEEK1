@@ -1,47 +1,88 @@
-ul,li{
-  list-style: none;
+ul {
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
 }
-
 .horizon-scroll {
   display: flex;
   flex-direction: row;
   margin-top: 30px;
+  align-items: center;
 }
-// 單層圖片
+
 .hotCity-wrapper {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 202px;
-  height: 245px;
-  background: #ffffff;
-  box-shadow: 0px 4px 3px rgba(13, 11, 12, 0.2);
+  height: 250px;
+  width: 100%;
+  margin-bottom: -5px;
+  padding-bottom: 5px;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-content: center;
+  justify-content: space-between;
 }
 
-.hotCity-img {
-  width: 177px;
-  height: 217px;
-  background: #0d0b0c;
-}
-// 雙層圖片
-.hotCity-double-wrapper{
+.hotCity-content,
+.hotCity-double-content {
+  position: relative;
   width: 202px;
-  height: 245px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  margin-top: -30px;
   margin-right: 13px;
   background: #ffffff;
+  border: solid #ffffff;
+  cursor: pointer;
   box-shadow: 0px 4px 3px rgba(13, 11, 12, 0.2);
 }
-.hotCity-double-img{
-  margin-top: 30px;
-  width: 185px;
-  height: 106px;
-  background: #0D0B0C;
+
+.hotCity-content {
+  border-width: 14px 12px 14px 13px;
+  height: 245px;
+  > .hotCity-img {
+    width: 100%;
+    height: 100%;
+    &:after {
+      position: absolute;
+      content: "";
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0d0b0c;
+      opacity: 0.3;
+      z-index: 1;
+    }
+  }
+}
+.hotCity-double-content {
+  border-width: 7px 9px 7px 8px;
+  height: 120px;
+  > .hotCity-img {
+    width: 100%;
+    height: 100%;
+    &:after {
+      position: absolute;
+      content: "哭阿";
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0d0b0c;
+      opacity: 0.3;
+      z-index: 1;
+    }
+  }
 }
 
+.hotCity-overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .hotCity-text {
   font-family: Noto Sans TC;
   font-style: normal;
@@ -49,4 +90,16 @@ ul,li{
   font-size: 20px;
   line-height: 29px;
   color: #ffffff;
+}
+
+.arrow-icon {
+  background-color: #0d0b0c;
+  border-radius: 6px;
+  box-shadow: 0px 4px 3px rgba(13, 11, 12, 20%);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
