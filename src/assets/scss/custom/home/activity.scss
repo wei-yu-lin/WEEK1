@@ -1,0 +1,84 @@
+.card-body#description {
+  * {
+    font-family: Noto Sans TC;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 23px;
+  }
+}
+
+.activity-description {
+  width: 100%;
+  height: auto;
+  color: #acacac;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 5; //行數
+  -webkit-box-orient: vertical;
+  white-space: normal;
+}
+
+.activity-image {
+  width: 187px;
+  height: 196px;
+  margin: 16px;
+  object-fit: cover;
+}
+
+.hotcity-gps {
+  filter: invert(29%) sepia(56%) saturate(6725%) hue-rotate(326deg)
+    brightness(100%) contrast(102%);
+}
+
+.activity-card-footer {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  bottom: 10px;
+  > .wrap {
+    margin-right: 37px;
+  }
+}
+
+// ====================================ActivityModal==============================
+// .activity_modal-wrapper {
+//   display: flex;
+//   justify-content: center;
+// }
+.activity_modal-container {
+  background-color: rgb(255, 255, 255);
+  padding: 32px;
+  pointer-events: auto;
+  >:not(:last-child){
+    margin-bottom: 22px;
+  }
+}
+.activity_modal-nextlogo_wrapper{
+  display: flex;
+  justify-content: flex-end;
+  >.activity_modal-nextlogo_content {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    background-color: #0d0b0c;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    &:after{
+      content: "";
+      position:relative;
+      left: 4px;
+      width: 0;
+      height: 0;
+      border: 6px solid;
+      border-color: transparent transparent transparent white;
+    }
+  }
+}
+.activity_modal-image {
+  width: 612px;
+  height: 459px;
+}

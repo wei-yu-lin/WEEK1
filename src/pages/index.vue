@@ -1,12 +1,4 @@
-<script setup>
-  import NavBar from "@/components/NavBar.vue";
-  import City from "@/views/Home/City.vue"
-  import Events from "@/views/Home/Events.vue"
-  import TextCircle from "@/assets/images/Text-Circle.svg";
-  import TextSquare from "@/assets/images/Text-Square.svg";
-  import TextTriangle from "@/assets/images/Text-Triangle.svg";
-  import TextRectangle from "@/assets/images/Text-Rectangle.svg";
-</script>
+
 
 <template>
   <div class="container-fluid">
@@ -19,11 +11,21 @@
   </div>
     <div class="container">
       <City/>
-      <Events/>
+      <Activity/>
     </div>
 
 </template>
 
+<script setup>
+  import NavBar from "@/components/NavBar.vue";
+  import City from "@/views/Home/City.vue"
+  import Activity from "@/views/Home/Activity.vue"
+  import TextCircle from "@/assets/images/Text-Circle.svg";
+  import TextSquare from "@/assets/images/Text-Square.svg";
+  import TextTriangle from "@/assets/images/Text-Triangle.svg";
+  import TextRectangle from "@/assets/images/Text-Rectangle.svg";
+</script>
+
 <style lang="scss">
-@import "@/assets/scss/custom/home.scss";
+@import "@/assets/scss/custom/home/index.scss";
 </style>

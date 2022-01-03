@@ -5,7 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { createRouter, createWebHistory } from "vue-router";
 import routes from "virtual:generated-pages";
 import App from './App.vue'
-import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap";
+
 
 const router = createRouter({
   history: createWebHistory(),
