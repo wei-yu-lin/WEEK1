@@ -35,10 +35,15 @@
 .activity-card-footer {
   display: flex;
   align-items: center;
-  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  position:absolute;
   bottom: 10px;
+  justify-content:space-between;
   > .wrap {
-    margin-right: 37px;
+    display: flex;
+    align-items: center;
+
   }
 }
 
@@ -58,24 +63,40 @@
 .activity_modal-nextlogo_wrapper{
   display: flex;
   justify-content: flex-end;
-  >.activity_modal-nextlogo_content {
+  >.activity_modal-logo_container {
     width: 32px;
     height: 32px;
     border-radius: 6px;
-    background-color: #0d0b0c;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+  }
+  >.activity_modal-nextlogo_content {
+    @extend .activity_modal-logo_container;
+    background-color: #0d0b0c;
     &:after{
-      content: "";
-      position:relative;
-      left: 4px;
-      width: 0;
-      height: 0;
-      border: 6px solid;
-      border-color: transparent transparent transparent white;
-    }
+        content: "";
+        position:relative;
+        left: 4px;
+        width: 0;
+        height: 0;
+        border: 6px solid;
+        border-color: transparent transparent transparent white;
+      }
+  }
+  >.activity_modal-backlogo_content {
+    @extend .activity_modal-logo_container;
+    background-color: #ffffff;
+    &:after{
+        content: "";
+        position:relative;
+        right: 4px;
+        width: 0;
+        height: 0;
+        border: 6px solid;
+        border-color: transparent rgb(0, 0, 0) transparent transparent;
+      }
   }
 }
 .activity_modal-image {

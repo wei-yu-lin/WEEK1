@@ -213,11 +213,17 @@ export function useHome() {
 
         const [firstGet] = shuffle(resp);
         const image = firstGet?.Picture;
+        const imageArr = []
+        Object.keys(image).forEach((el) => {
+          if (el.search("PictureUrl") === 0) {
+            imageArr.push(image[el]);
+          }
+        });
         const ActivityName = firstGet?.ActivityName;
         const Description = firstGet?.Description;
         const Location = firstGet?.Location;
         const Time = [firstGet?.StartTime, firstGet?.EndTime];
-        return { Description, ActivityName, Location,Time, image };
+        return { Description, ActivityName, Location, Time, imageArr };
       };
       const cities = shuffle(cityOptions);
       cities.forEach((el, ind) => {

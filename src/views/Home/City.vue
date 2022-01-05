@@ -50,7 +50,6 @@ const oddData = computed(() => {
   return sortImage(hotCity,page.value);
 });
 
-// console.log(hotActivity.image);
 fetchData();
 
 </script>

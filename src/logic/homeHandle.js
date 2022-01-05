@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 export function hotCityLogic() {
   const page = ref(0);
   const cityMove = (loc, len) => {
@@ -41,10 +41,37 @@ export function hotCityLogic() {
 }
 
 export function activityLogic() {
-  const activityMove = (image) => {
-    console.log(image);
+  const pageIndex = ref(0);
+  const buttonStatus = reactive({ back: false, next: true });
+  const activityMove = (image, status) => {
+    if (image.length > 1) {
+      if (status) {
+        pageIndex.value += 1;
+        console.log(pageIndex.value);
+        if (pageIndex.value == image.length - 1) {
+          buttonStatus.next = false;
+        } else if (pageIndex.value >= 0) {
+          buttonStatus.next = true;
+          buttonStatus.back = true;
+        }
+      } else {
+        pageIndex.value -= 1;
+        console.log(pageIndex.value);
+        if (pageIndex.value > 0) {
+          buttonStatus.next = true;
+          buttonStatus.back = true;
+        } else {
+          buttonStatus.back = false;
+        }
+      }
+    } else {
+      buttonStatus.next = false;
+      buttonStatus.back = false;
+    }
   };
   return {
     activityMove,
+    pageIndex,
+    buttonStatus,
   };
 }

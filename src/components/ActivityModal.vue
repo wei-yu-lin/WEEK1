@@ -3,11 +3,24 @@
     <div class="modal-dialog">
       <div class="d-flex justify-content-center">
         <div class="activity_modal-container">
-          <img :src="activityData.image.PictureUrl1" class="activity_modal-image rounded" />
+          <img
+            :src="activityData.imageArr[pageIndex]"
+            class="activity_modal-image rounded"
+          />
           <div class="activity_modal-nextlogo_wrapper">
-            <button type="button" class="activity_modal-nextlogo_content" @click="activityMove(activityData.image)"/>
+            <button
+              type="button"
+              class="activity_modal-backlogo_content"
+              v-show="buttonStatus.back"
+              @click="activityMove(activityData.imageArr,false)"
+            />
+            <button
+              type="button"
+              class="activity_modal-nextlogo_content"
+              v-show="buttonStatus.next"
+              @click="activityMove(activityData.imageArr,true)"
+            />
           </div>
-
         </div>
       </div>
     </div>
@@ -15,10 +28,13 @@
 </template>
 
 <script setup>
-import {activityLogic} from "@/logic/homeHandle.js";
+import { computed,ref } from "vue";
+import { activityLogic } from "@/logic/homeHandle.js";
 const props = defineProps({
   seq: Number,
   activityData: Object,
 });
-const {activityMove} = activityLogic()
+const { activityMove, pageIndex, buttonStatus } = activityLogic();
+computed(() => pageIndex.value);
+computed(() => buttonStatus);
 </script>

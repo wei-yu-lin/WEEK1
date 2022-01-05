@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <section class="row">
     <span class="d-flex align-items-center mb-3">
       <ThemeTriangle />
       <p class="ps-2 theme-text">熱門活動</p>
@@ -13,9 +13,9 @@
       <div class="card h-100 justify-content-center">
         <div class="row g-0">
           <div class="col-md-4">
-            <img :src="Activity.image.PictureUrl1" class="activity-image rounded" />
+            <img :src="Activity.imageArr[0]" class="activity-image rounded" />
           </div>
-          <div class="col-md-8">
+          <div class="col-md-8 position-relative">
             <div class="card-body justify-content-between" id="description">
               <h5 class="card-title text-truncate">
                 {{ Activity.ActivityName }}
@@ -25,7 +25,7 @@
               </p>
 
               <div class="activity-card-footer">
-                <div class="wrap">
+                <div >
                   <img
                     src="src/assets/images/HotCity-GPS.svg"
                     class="hotcity-gps"
@@ -40,18 +40,18 @@
                 >
                   活動詳情
                 </button>
-                <ActivityModal :seq="index" :activityData="Activity"/>
               </div>
+
+              <ActivityModal :seq="index" :activityData="Activity" />
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script setup>
-
 import ActivityModal from "@/components/ActivityModal.vue";
 import ThemeTriangle from "@/assets/images/Theme-Triangle.svg";
 import { inject } from "vue";
