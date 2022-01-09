@@ -7,9 +7,9 @@
 <script setup>
 import {provide} from 'vue'
 import { useHome } from "@/tools/useHome.js";
-const { fetchData,hotCity,hotActivity } = useHome()
+const { fetchData,hotCity,hotActivity,restaurant } = useHome()
 provide('fetchData', fetchData)
 provide('hotCity', hotCity)
 provide('hotActivity', hotActivity)
-
+provide('restaurant', restaurant)
 </script>

@@ -8,22 +8,22 @@
 }
 
 .activity-description {
-  width: 100%;
-  height: auto;
+  margin-bottom: 14px;
   color: #acacac;
   font-size: 14px;
-  text-overflow: ellipsis;
-  overflow: hidden;
+  line-height: 21px;
   display: -webkit-box;
-  -webkit-line-clamp: 5; //行數
+  overflow: hidden;
+  -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
-  white-space: normal;
 }
 
 .activity-image {
-  width: 187px;
-  height: 196px;
-  margin: 16px;
+  // width: 187px;
+  // height: 196px;
+  width: 100%;
+  height: 100%;
+  padding: 6px;
   object-fit: cover;
 }
 
@@ -35,15 +35,14 @@
 .activity-card-footer {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  position:absolute;
   left: 1rem;
   right: 1rem;
-  position:absolute;
   bottom: 10px;
-  justify-content:space-between;
   > .wrap {
     display: flex;
     align-items: center;
-
   }
 }
 
@@ -56,14 +55,14 @@
   background-color: rgb(255, 255, 255);
   padding: 32px;
   pointer-events: auto;
-  >:not(:last-child){
+  > :not(:last-child) {
     margin-bottom: 22px;
   }
 }
-.activity_modal-nextlogo_wrapper{
+.activity_modal-nextlogo_wrapper {
   display: flex;
   justify-content: flex-end;
-  >.activity_modal-logo_container {
+  > .activity_modal-logo_container {
     width: 32px;
     height: 32px;
     border-radius: 6px;
@@ -72,31 +71,31 @@
     justify-content: center;
     align-items: center;
   }
-  >.activity_modal-nextlogo_content {
+  > .activity_modal-nextlogo_content {
     @extend .activity_modal-logo_container;
     background-color: #0d0b0c;
-    &:after{
-        content: "";
-        position:relative;
-        left: 4px;
-        width: 0;
-        height: 0;
-        border: 6px solid;
-        border-color: transparent transparent transparent white;
-      }
+    &:after {
+      content: "";
+      position: relative;
+      left: 4px;
+      width: 0;
+      height: 0;
+      border: 6px solid;
+      border-color: transparent transparent transparent white;
+    }
   }
-  >.activity_modal-backlogo_content {
+  > .activity_modal-backlogo_content {
     @extend .activity_modal-logo_container;
     background-color: #ffffff;
-    &:after{
-        content: "";
-        position:relative;
-        right: 4px;
-        width: 0;
-        height: 0;
-        border: 6px solid;
-        border-color: transparent rgb(0, 0, 0) transparent transparent;
-      }
+    &:after {
+      content: "";
+      position: relative;
+      right: 4px;
+      width: 0;
+      height: 0;
+      border: 6px solid;
+      border-color: transparent rgb(0, 0, 0) transparent transparent;
+    }
   }
 }
 .activity_modal-image {

@@ -49,7 +49,6 @@ const {
 const oddData = computed(() => {
   return sortImage(hotCity,page.value);
 });
-
 fetchData();
 
 </script>

@@ -6,7 +6,7 @@ import { ref, reactive, computed, watch } from "vue";
 //台灣城市名稱
 import { city } from "@/tools/cityName.js";
 //取得熱門景點資料
-import { getScenicSpot, getTourismActivity } from "@/api";
+import { getScenicSpot, getTourismActivity, getRestaurant } from "@/api";
 
 export function useHome() {
   const route = useRoute();
@@ -205,15 +205,14 @@ export function useHome() {
     }
   };
 
-  const fetchHotEvent = async () => {
+  const fetchHotActivity = async () => {
     try {
       const getCityActivity = async (city) => {
         //取得各縣市第一張照片，並與city的object回傳
         const resp = (await getTourismActivity({ city: city.City })).data;
-
         const [firstGet] = shuffle(resp);
         const image = firstGet?.Picture;
-        const imageArr = []
+        const imageArr = [];
         Object.keys(image).forEach((el) => {
           if (el.search("PictureUrl") === 0) {
             imageArr.push(image[el]);
@@ -236,13 +235,36 @@ export function useHome() {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const fetchRestaurant = async () => {
+    try {
+        //取得各縣市第一張照片，並與city的object回傳
+        const restaurantResp = (await getRestaurant()).data;
+        restaurant.push(...restaurantResp);
+        // const [firstGet] = shuffle(resp);
+        // const image = firstGet?.Picture;
+        // const imageArr = [];
+        // Object.keys(image).forEach((el) => {
+        //   if (el.search("PictureUrl") === 0) {
+        //     imageArr.push(image[el]);
+        //   }
+        // });
+        // const ActivityName = firstGet?.ActivityName;
+        // const Description = firstGet?.Description;
+        // const Location = firstGet?.Location;
+        // const Time = [firstGet?.StartTime, firstGet?.EndTime];
+        // return { Description, ActivityName, Location, Time, imageArr };
+    } catch (error) {
+      console.error(error);
+    }
     // console.log(hotActivity);
   };
 
   const fetchData = async () => {
     fetchHotCity();
-    fetchHotEvent();
-    //   fetchRestaurant()
+    fetchHotActivity();
+    fetchRestaurant();
     //   fetchHotel()
   };
 
@@ -250,5 +272,6 @@ export function useHome() {
     fetchData,
     hotCity,
     hotActivity,
+    restaurant,
   };
 }

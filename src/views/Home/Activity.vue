@@ -8,14 +8,13 @@
       class="col-md-6 mb-3"
       v-for="(Activity, index) in hotActivity"
       :key="index"
-      style="height: 228"
     >
       <div class="card h-100 justify-content-center">
-        <div class="row g-0">
+        <div class="row g-0" style="min-height: 242px;">
           <div class="col-md-4">
             <img :src="Activity.imageArr[0]" class="activity-image rounded" />
           </div>
-          <div class="col-md-8 position-relative">
+          <div class="col-md-8 position-relative" >
             <div class="card-body justify-content-between" id="description">
               <h5 class="card-title text-truncate">
                 {{ Activity.ActivityName }}
@@ -36,7 +35,7 @@
                   type="button"
                   class="btn btn-outline-danger"
                   data-bs-toggle="modal"
-                  :data-bs-target="`#exampleModal${index}`"
+                  :data-bs-target="`#hotactivity${index}`"
                 >
                   活動詳情
                 </button>
@@ -58,6 +57,6 @@ import { inject } from "vue";
 const hotActivity = inject("hotActivity");
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "@/assets/scss/custom/home/activity.scss";
 </style>
