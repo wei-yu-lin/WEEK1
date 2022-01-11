@@ -11,7 +11,7 @@
     >
       <div class="card h-100 justify-content-center">
         <div class="row g-0" style="min-height: 242px;">
-          <div class="col-md-4">
+          <div class="d-flex col-md-4 align-items-center">
             <img :src="Activity.imageArr[0]" class="activity-image rounded" />
           </div>
           <div class="col-md-8 position-relative" >
@@ -51,7 +51,7 @@
 </template>
 
 <script setup>
-import ActivityModal from "@/components/ActivityModal.vue";
+import ActivityModal from "@/components/Modal/index.vue";
 import ThemeTriangle from "@/assets/images/Theme-Triangle.svg";
 import { inject } from "vue";
 const hotActivity = inject("hotActivity");

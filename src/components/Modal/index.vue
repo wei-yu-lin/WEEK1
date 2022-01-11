@@ -50,3 +50,7 @@ const computedActivityTime = computed(()=>{
   return activityTime.slice(0,-2)
 })
 </script>
+
+<style lang="scss" scoped>
+@import "@/assets/scss/custom/home/activity.scss";
+</style>

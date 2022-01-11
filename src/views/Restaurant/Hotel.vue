@@ -4,7 +4,7 @@
       <div class="restaurant_title-logo" />
       <p class="ps-2 theme-text">熱門住宿</p>
     </div>
-    <div class="container">
+    <div class="container mb-3">
       <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
         <div
           class="col"

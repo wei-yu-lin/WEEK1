@@ -44,3 +44,13 @@
   text-align: left;
   margin-bottom: 0;
 }
+
+.select-wrap{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  > select{
+    margin-right: 6px;
+  }
+
+}
