@@ -1,5 +1,6 @@
 <template>
   <router-view/>
+  <Footer/>
 </template>
 <style lang="scss">
 @import "@/assets/scss/main.scss";
@@ -7,9 +8,11 @@
 <script setup>
 import {provide} from 'vue'
 import { useHome } from "@/tools/useHome.js";
-const { fetchData,hotCity,hotActivity,restaurant } = useHome()
+import Footer from "@/components/Footer.vue"
+const { fetchData,hotCity,hotActivity,restaurant,hotel } = useHome()
 provide('fetchData', fetchData)
 provide('hotCity', hotCity)
 provide('hotActivity', hotActivity)
 provide('restaurant', restaurant)
+provide('hotel', hotel)
 </script>

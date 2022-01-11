@@ -5,9 +5,16 @@
 .home-content {
   height: 100vh;
 }
-.banner {
+.home-banner {
   height: 490px;
   background-image: url("@/assets/images/beach.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+}
+.restaurant-banner {
+  height: 490px;
+  background-image: url("@/assets/images/restaurant.png");
   background-size: cover;
   background-repeat: no-repeat;
   width: 100%;

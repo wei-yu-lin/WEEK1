@@ -15,11 +15,12 @@
 
 .restaurant_card-wrapper {
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   > .restaurant-gps {
     filter: invert(29%) sepia(56%) saturate(6725%) hue-rotate(326deg)
       brightness(100%) contrast(102%);
+      margin-right: 5px;
   }
   p.restaurant_card-address {
     margin: 0;
@@ -34,5 +35,7 @@
     overflow: hidden;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
+    color: #007350;
   }
 }
+

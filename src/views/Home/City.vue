@@ -1,6 +1,6 @@
 <template>
   <div class="row mb-5">
-    <span class="d-flex align-items-center" style="margin-top: 70px">
+    <span class="d-flex align-items-center">
       <ThemeTriangle />
       <p class="ps-2 theme-text">熱門城市</p>
     </span>
@@ -39,7 +39,7 @@ import ThemeTriangle from "@/assets/images/Theme-Triangle.svg";
 import HotCityGps from "@/assets/images/HotCity-GPS.svg";
 import {hotCityLogic} from "@/logic/homeHandle.js";
 const hotCity = inject("hotCity");
-const fetchData = inject("fetchData");
+
 const {
   cityMove,
   sortImage,
@@ -49,7 +49,7 @@ const {
 const oddData = computed(() => {
   return sortImage(hotCity,page.value);
 });
-fetchData();
+
 
 </script>
 

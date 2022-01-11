@@ -2,15 +2,16 @@
   <section class="row">
     <div class="d-flex align-items-center mb-3">
       <div class="restaurant_title-logo" />
-      <p class="ps-2 theme-text">熱門餐廳</p>
+      <p class="ps-2 theme-text">熱門住宿</p>
     </div>
-    <div class="container mb-3">
+    <div class="container">
       <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
         <div
           class="col"
-          v-for="(data, index) in restaurant"
-          :key="`restaurant_${index}`"
+          v-for="(data, index) in hotel"
+          :key="`hotel_${index}`"
         >
+
           <div class="border bg-light d-flex flex-column p-2">
             <img
               class="restaurant_card-image"
@@ -22,7 +23,7 @@
                 src="src/assets/images/HotCity-GPS.svg"
                 class="restaurant-gps"
               />
-              <p class="restaurant_card-address">{{hotelAddress(data.Address)}}</p>
+              <p class="restaurant_card-address">{{ hotelAddress(data.Address)}}</p>
             </div>
           </div>
         </div>
@@ -33,12 +34,8 @@
 
 <script setup>
 import { inject } from "vue";
-const restaurant = inject("restaurant");
-const hotelAddress = (address)=> {
-  // const re = /[\u4e00-\u9fa5]+/g;
-  const re = new RegExp('[\u4e00-\u9fa5]+','g');
-  return (address) ? address.match(re)[0]+address.match(re)[1].substring(0,3) : '';
-}
+const hotel = inject("hotel");
+const hotelAddress = (address)=> (address) ? address.substring(0,6) : '';
 </script>
 
 <style lang="scss" scoped>

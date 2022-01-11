@@ -25,7 +25,7 @@ function formatRequestUrl(url, param, type = "other") {
       delete keys.page;
     }
   }
-  
+
   return (
     url +
     "?$format=JSON" +
@@ -38,3 +38,4 @@ export const getTourismActivity = (parmas) =>
   GET(formatRequestUrl("/Activity", parmas));
 export const getRestaurant = (params) =>
   GET(formatRequestUrl("/Restaurant", params));
+export const getHotel = (params) => GET(formatRequestUrl("/Hotel", params));

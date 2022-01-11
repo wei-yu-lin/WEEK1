@@ -6,7 +6,7 @@ import { ref, reactive, computed, watch } from "vue";
 //台灣城市名稱
 import { city } from "@/tools/cityName.js";
 //取得熱門景點資料
-import { getScenicSpot, getTourismActivity, getRestaurant } from "@/api";
+import { getScenicSpot, getTourismActivity, getRestaurant, getHotel } from "@/api";
 
 export function useHome() {
   const route = useRoute();
@@ -225,6 +225,7 @@ export function useHome() {
         return { Description, ActivityName, Location, Time, imageArr };
       };
       const cities = shuffle(cityOptions);
+      hotActivity.splice(0, hotActivity.length); // 清空陣列
       cities.forEach((el, ind) => {
         if (ind <= 3) {
           getCityActivity(el).then((CityActivity) => {
@@ -239,33 +240,28 @@ export function useHome() {
 
   const fetchRestaurant = async () => {
     try {
-        //取得各縣市第一張照片，並與city的object回傳
-        const restaurantResp = (await getRestaurant()).data;
-        restaurant.push(...restaurantResp);
-        // const [firstGet] = shuffle(resp);
-        // const image = firstGet?.Picture;
-        // const imageArr = [];
-        // Object.keys(image).forEach((el) => {
-        //   if (el.search("PictureUrl") === 0) {
-        //     imageArr.push(image[el]);
-        //   }
-        // });
-        // const ActivityName = firstGet?.ActivityName;
-        // const Description = firstGet?.Description;
-        // const Location = firstGet?.Location;
-        // const Time = [firstGet?.StartTime, firstGet?.EndTime];
-        // return { Description, ActivityName, Location, Time, imageArr };
+      restaurant.splice(0, restaurant.length); // 清空陣列
+      const restaurantResp = (await getRestaurant()).data;
+      restaurant.push(...restaurantResp);
     } catch (error) {
       console.error(error);
     }
-    // console.log(hotActivity);
+  };
+  const fetchHotel = async () => {
+    try {
+      hotel.splice(0, hotel.length); // 清空陣列
+      const hotelResp = (await getHotel()).data;
+      hotel.push(...hotelResp);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const fetchData = async () => {
     fetchHotCity();
     fetchHotActivity();
     fetchRestaurant();
-    //   fetchHotel()
+    fetchHotel();
   };
 
   return {
@@ -273,5 +269,6 @@ export function useHome() {
     hotCity,
     hotActivity,
     restaurant,
+    hotel,
   };
 }
