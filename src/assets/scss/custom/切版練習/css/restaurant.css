@@ -1,0 +1,49 @@
+.restaurant_title-logo {
+  background-color: #ffb72c;
+  width: 20px;
+  height: 20px;
+}
+
+.restaurant_card-image {
+  height: 137px;
+  width: 100%;
+  padding: 6px;
+  margin-bottom: 20px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.restaurant_card-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.restaurant_card-wrapper > .restaurant-gps {
+  -webkit-filter: invert(29%) sepia(56%) saturate(6725%) hue-rotate(326deg) brightness(100%) contrast(102%);
+          filter: invert(29%) sepia(56%) saturate(6725%) hue-rotate(326deg) brightness(100%) contrast(102%);
+  margin-right: 5px;
+}
+
+.restaurant_card-wrapper p.restaurant_card-address {
+  margin: 0;
+  font-family: Noto Sans TC;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 17px;
+  letter-spacing: 0em;
+  text-align: left;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  color: #007350;
+}
+/*# sourceMappingURL=restaurant.css.map */

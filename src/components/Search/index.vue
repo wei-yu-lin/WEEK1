@@ -19,7 +19,7 @@
           name="na_search"
           id="id_search_text"
           placeholder="搜尋關鍵字"
-          v-model="searchText"
+          v-model="searchKeyword"
         />
         <button
           class="btn btn-success"
@@ -30,7 +30,7 @@
         </button>
       </div>
       <div class="select-wrap">
-        <select class="form-select" v-model="categorySelected">
+        <select class="form-select" v-model="selectedCity.category">
           <option value="" disabled>類別</option>
           <option
             v-for="(item, index) in s_category"
@@ -40,17 +40,17 @@
             {{ item }}
           </option>
         </select>
-        <select class="form-select" v-model="citySelected">
+        <select class="form-select" v-model="updateCity">
           <option value="" disabled>不分縣市</option>
           <option
-            v-for="(item, index) in s_city"
-            :value="item.City"
+            v-for="(item, index) in cityOptions"
+            :value="[item.City, item.CityName]"
             :key="`city_${index}`"
           >
             {{ item.CityName }}
           </option>
         </select>
-        <button class="btn btn-success" @click="optionSearch">
+        <button class="btn btn-success" @click="cityOptionSearch">
           <font-awesome-icon icon="search" />
         </button>
       </div>
@@ -59,18 +59,21 @@
 </template>
 
 <script setup>
-import { searchLogic } from "@/logic/homeHandle.js";
+import { inject, reactive, computed } from "vue";
 import TextCircle from "@/assets/images/Text-Circle.svg";
 import TextSquare from "@/assets/images/Text-Square.svg";
 import TextTriangle from "@/assets/images/Text-Triangle.svg";
 import TextRectangle from "@/assets/images/Text-Rectangle.svg";
-const {
-  s_city,
-  searchText,
-  categorySelected,
-  citySelected,
-  s_category,
-  textSearch,
-  optionSearch,
-} = searchLogic();
+const cityOptionSearch = inject("cityOptionSearch");
+const selectedCity = inject("selectedCity");
+const cityOptions = inject("cityOptions");
+const searchKeyword = inject("searchKeyword");
+const s_category = reactive(["景點", "活動"]);
+
+const updateCity = computed({
+  get: () => "",
+  set: (val) => {
+    (selectedCity.City = val[0]), (selectedCity.CityName = val[1]);
+  },
+});
 </script>

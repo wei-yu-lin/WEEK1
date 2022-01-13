@@ -1,16 +1,21 @@
 // Npm Moudle
 import { Observable } from "rxjs";
 //Vue lib
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { ref, reactive, computed, watch } from "vue";
 //台灣城市名稱
 import { city } from "@/tools/cityName.js";
 //取得熱門景點資料
-import { getScenicSpot, getTourismActivity, getRestaurant, getHotel } from "@/api";
+import {
+  getScenicSpot,
+  getTourismActivity,
+  getRestaurant,
+  getHotel,
+} from "@/api";
 
 export function useHome() {
   const route = useRoute();
-
+  const router = useRouter();
   // reactive
   const cityOptions = reactive(city);
   const searchHistory = reactive([]);
@@ -22,11 +27,11 @@ export function useHome() {
   const hotel = reactive([]);
   const selectedCity = reactive({
     City: "",
-    CityCode: "",
-    CityID: "",
     CityName: "",
-    CountyID: "",
+    category: "",
   });
+  const resScenicSpot = reactive([]);
+
   // ref
   const isLoading = ref(false);
   const loadingCount = ref(0);
@@ -81,6 +86,51 @@ export function useHome() {
   const clearSearchHistory = () => {
     searchHistory.splice(0, searchHistory.length);
   };
+
+  const cityOptionSearch = async () => {
+    resScenicSpot.splice(0, resScenicSpot.length);
+    if (selectedCity.City && selectedCity.category >= 0) {
+
+      switch (selectedCity.category) {
+        case 0:
+          console.log(selectedCity.City);
+
+          resScenicSpot.push(
+            ...(
+              await getScenicSpot(
+                {
+                  city: selectedCity.City,
+                },
+                "all"
+              )
+            ).data
+          );
+          console.log("hi333", resScenicSpot);
+          router.push({
+            name: "index",
+            query: {
+              city: selectedCity.City,
+              page: 1,
+              type: 0,
+            },
+          });
+          break;
+        case 1:
+          const resActivity = (
+            await getTourismActivity(
+              {
+                city: selectedCity.City,
+              },
+              "all"
+            )
+          ).data;
+          console.log(resActivity);
+          break;
+      }
+    }
+  };
+  const textSearch = () => {};
+
   const searchByKeyword = async () => {
     let filter;
     if (searchKeyword.value) {
@@ -135,19 +185,6 @@ export function useHome() {
     searchByKeyword();
   };
 
-  const reset = () => {
-    selectedType.text = "";
-    selectedType.value = "";
-    selectedCity.City = "";
-    selectedCity.CityCode = "";
-    selectedCity.CityID = "";
-    selectedCity.CityName = "";
-    selectedCity.CountyID = "";
-    searchKeyword.value = "";
-
-    curPage.value = 1;
-    fetchData();
-  };
 
   //取得資料function
   const fetchHotCity = async () => {
@@ -265,10 +302,15 @@ export function useHome() {
   };
 
   return {
+    selectedCity,
     fetchData,
+    cityOptionSearch,
     hotCity,
     hotActivity,
     restaurant,
     hotel,
+    cityOptions,
+    searchKeyword,
+    resScenicSpot,
   };
 }
