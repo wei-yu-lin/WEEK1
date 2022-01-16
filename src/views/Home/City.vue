@@ -53,6 +53,6 @@ const oddData = computed(() => {
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "@/assets/scss/custom/home/city.scss";
 </style>

@@ -24,7 +24,7 @@ function formatRequestUrl(url, param, type = "other") {
       keys.skip = (keys.page - 1) * 30;
       delete keys.page;
     }
-  
+
 
   return (
     url +

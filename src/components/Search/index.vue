@@ -30,8 +30,7 @@
         </button>
       </div>
       <div class="select-wrap">
-        <select class="form-select" v-model="selectedCity.category">
-          <option value="" disabled>類別</option>
+        <select class="form-select" v-model="selectedTypeCity.category">
           <option
             v-for="(item, index) in s_category"
             :value="index"
@@ -41,7 +40,7 @@
           </option>
         </select>
         <select class="form-select" v-model="updateCity">
-          <option value="" disabled>不分縣市</option>
+          <option value="">不分縣市</option>
           <option
             v-for="(item, index) in cityOptions"
             :value="[item.City, item.CityName]"
@@ -50,7 +49,7 @@
             {{ item.CityName }}
           </option>
         </select>
-        <button class="btn btn-success" @click="cityOptionSearch">
+        <button class="btn btn-success" @click="cityOptionSearch('Home')">
           <font-awesome-icon icon="search" />
         </button>
       </div>
@@ -65,7 +64,7 @@ import TextSquare from "@/assets/images/Text-Square.svg";
 import TextTriangle from "@/assets/images/Text-Triangle.svg";
 import TextRectangle from "@/assets/images/Text-Rectangle.svg";
 const cityOptionSearch = inject("cityOptionSearch");
-const selectedCity = inject("selectedCity");
+const selectedTypeCity = inject("selectedTypeCity");
 const cityOptions = inject("cityOptions");
 const searchKeyword = inject("searchKeyword");
 const s_category = reactive(["景點", "活動"]);
@@ -73,7 +72,7 @@ const s_category = reactive(["景點", "活動"]);
 const updateCity = computed({
   get: () => "",
   set: (val) => {
-    (selectedCity.City = val[0]), (selectedCity.CityName = val[1]);
+    (selectedTypeCity.City = val[0]), (selectedTypeCity.CityName = val[1]);
   },
 });
 </script>

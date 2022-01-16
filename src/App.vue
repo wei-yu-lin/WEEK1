@@ -16,19 +16,23 @@ const {
   restaurant,
   hotel,
   cityOptionSearch,
-  selectedCity,
+  selectedTypeCity,
   cityOptions,
   searchKeyword,
   resScenicSpot,
+  curPage,
+  showNextPage
 } = useHome();
 provide("fetchData", fetchData);
 provide("hotCity", hotCity);
 provide("hotActivity", hotActivity);
 provide("restaurant", restaurant);
 provide("hotel", hotel);
-provide("selectedCity", selectedCity);
+provide("selectedTypeCity", selectedTypeCity);
 provide("resScenicSpot", resScenicSpot);
 provide("cityOptionSearch", cityOptionSearch);
 provide("cityOptions", cityOptions);
 provide("searchKeyword", searchKeyword);
+provide("curPage", curPage);
+provide("showNextPage", showNextPage);
 </script>

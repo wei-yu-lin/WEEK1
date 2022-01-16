@@ -25,10 +25,11 @@ export function useHome() {
   const activity = reactive([]);
   const restaurant = reactive([]);
   const hotel = reactive([]);
-  const selectedCity = reactive({
+  const selectedTypeCity = reactive({
     City: "",
     CityName: "",
-    category: "",
+    Type: "",
+    category: 0,
   });
   const resScenicSpot = reactive([]);
 
@@ -39,36 +40,23 @@ export function useHome() {
   const curPage = ref(1);
 
   // computed
-  const displayScenicSpot = computed(() =>
-    scenicSpot.slice(0, selectedType.value ? perPageItem : 10)
-  );
-  const displayActivity = computed(() =>
-    activity.slice(0, selectedType.value ? perPageItem : 10)
-  );
-  const displayRestaurant = computed(() =>
-    restaurant.slice(0, selectedType.value ? perPageItem : 10)
-  );
-  const displayHotel = computed(() =>
-    hotel.slice(0, selectedType.value ? perPageItem : 10)
-  );
   const showNextPage = computed(() => {
-    switch (selectedType.value) {
-      case "ScenicSpot":
-        return scenicSpot.length >= perPageItem;
-      case "Hotel":
+    switch (selectedTypeCity.Type) {
+      case "Home":
+        return selectedTypeCity.category == 0
+          ? resScenicSpot.length >= curPage.value * 20
+          : hotActivity.length >= curPage.value * 20;
+
+      case "HotelRestaurant":
         return hotel.length >= perPageItem;
-      case "Restaurant":
-        return restaurant.length >= perPageItem;
-      case "Activity":
-        return activity.length >= perPageItem;
     }
-    if (route.path.includes("/hotel")) {
-      return hotel.length >= perPageItem || restaurant.length >= perPageItem;
-    }
-    return scenicSpot.length >= perPageItem || activity.length >= perPageItem;
+    // if (route.path.includes("/hotel")) {
+    //   return hotel.length >= perPageItem || restaurant.length >= perPageItem;
+    // }
+    // return scenicSpot.length >= perPageItem || activity.length >= perPageItem;
   });
   //watch
-  watch(curPage, () => refetch());
+  // watch(curPage, () => refetch());
   watch(loadingCount, () => {
     isLoading.value = !(loadingCount.value === 0);
   });
@@ -86,45 +74,52 @@ export function useHome() {
   const clearSearchHistory = () => {
     searchHistory.splice(0, searchHistory.length);
   };
-
-  const cityOptionSearch = async () => {
-    resScenicSpot.splice(0, resScenicSpot.length);
-    if (selectedCity.City && selectedCity.category >= 0) {
-
-      switch (selectedCity.category) {
+  const refetch = () => {
+    resScenicSpot.splice(0, scenicSpot.length);
+    hotActivity.splice(0, activity.length);
+  };
+  const cityOptionSearch = async (Type) => {
+    selectedTypeCity.Type = Type;
+    refetch();
+    if (selectedTypeCity.City && selectedTypeCity.category >= 0) {
+      switch (selectedTypeCity.category) {
         case 0:
-          console.log(selectedCity.City);
-
           resScenicSpot.push(
             ...(
               await getScenicSpot(
                 {
-                  city: selectedCity.City,
+                  city: selectedTypeCity.City,
                 },
                 "all"
               )
             ).data
           );
-          console.log("hi333", resScenicSpot);
           router.push({
             name: "index",
             query: {
-              city: selectedCity.City,
-              page: 1,
+              city: selectedTypeCity.City,
               type: 0,
             },
           });
           break;
         case 1:
-          const resActivity = (
-            await getTourismActivity(
-              {
-                city: selectedCity.City,
-              },
-              "all"
-            )
-          ).data;
-          console.log(resActivity);
+          hotActivity.push(
+            ...(
+              await getTourismActivity(
+                {
+                  city: selectedTypeCity.City,
+                },
+                "all"
+              )
+            ).data
+          );
+          router.push({
+            name: "index",
+            query: {
+              city: selectedTypeCity.City,
+              type: 1,
+            },
+          });
           break;
       }
     }
@@ -145,7 +140,7 @@ export function useHome() {
 
     let city, type;
 
-    if (selectedCity.City) city = selectedCity.City;
+    if (selectedTypeCity.City) city = selectedTypeCity.City;
     if (selectedType.value) type = selectedType.value;
 
     // switch (type) {
@@ -176,15 +171,6 @@ export function useHome() {
     scenicSpot.push(...resp2.data);
     activity.push(...resp1.data);
   };
-
-  const refetch = () => {
-    scenicSpot.splice(0, scenicSpot.length);
-    activity.splice(0, activity.length);
-    hotel.splice(0, hotel.length);
-    restaurant.splice(0, restaurant.length);
-    searchByKeyword();
-  };
-
 
   //取得資料function
   const fetchHotCity = async () => {
@@ -302,7 +288,7 @@ export function useHome() {
   };
 
   return {
-    selectedCity,
+    selectedTypeCity,
     fetchData,
     cityOptionSearch,
     hotCity,
@@ -312,5 +298,7 @@ export function useHome() {
     cityOptions,
     searchKeyword,
     resScenicSpot,
+    curPage,
+    showNextPage,
   };
 }
