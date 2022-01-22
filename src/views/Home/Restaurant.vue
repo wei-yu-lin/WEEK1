@@ -35,7 +35,6 @@
 import { inject } from "vue";
 const restaurant = inject("restaurant");
 const hotelAddress = (address)=> {
-  // const re = /[\u4e00-\u9fa5]+/g;
   const re = new RegExp('[\u4e00-\u9fa5]+','g');
   return (address) ? address.match(re)[0]+address.match(re)[1].substring(0,3) : '';
 }

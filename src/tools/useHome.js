@@ -25,13 +25,17 @@ export function useHome() {
   const activity = reactive([]);
   const restaurant = reactive([]);
   const hotel = reactive([]);
+  const resScenicSpot = reactive([]);
+  const resActivity = reactive([]);
+  const resRestaurant = reactive([]);
+  const resHotel = reactive([]);
+
   const selectedTypeCity = reactive({
     City: "",
     CityName: "",
     Type: "",
-    category: 0,
+    Category: 0,
   });
-  const resScenicSpot = reactive([]);
 
   // ref
   const isLoading = ref(false);
@@ -43,12 +47,14 @@ export function useHome() {
   const showNextPage = computed(() => {
     switch (selectedTypeCity.Type) {
       case "Home":
-        return selectedTypeCity.category == 0
+        return selectedTypeCity.Category == 0
           ? resScenicSpot.length >= curPage.value * 20
-          : hotActivity.length >= curPage.value * 20;
+          : resActivity.length >= curPage.value * 20;
 
       case "HotelRestaurant":
-        return hotel.length >= perPageItem;
+        return selectedTypeCity.Category == 0
+          ? resRestaurant.length >= curPage.value * 20
+          : resHotel.length >= curPage.value * 20;
     }
     // if (route.path.includes("/hotel")) {
     //   return hotel.length >= perPageItem || restaurant.length >= perPageItem;
@@ -75,51 +81,89 @@ export function useHome() {
     searchHistory.splice(0, searchHistory.length);
   };
   const refetch = () => {
-    resScenicSpot.splice(0, scenicSpot.length);
-    hotActivity.splice(0, activity.length);
+    resScenicSpot.splice(0, resScenicSpot.length);
+    resActivity.splice(0, resActivity.length);
+    resRestaurant.splice(0, resRestaurant.length);
+    resHotel.splice(0, resHotel.length);
   };
-  const cityOptionSearch = async (Type) => {
-    selectedTypeCity.Type = Type;
+  const cityOptionSearch = async () => {
     refetch();
-    if (selectedTypeCity.City && selectedTypeCity.category >= 0) {
-      switch (selectedTypeCity.category) {
+    if (selectedTypeCity.City && selectedTypeCity.Category >= 0) {
+      switch (selectedTypeCity.Category) {
         case 0:
-          resScenicSpot.push(
-            ...(
-              await getScenicSpot(
-                {
-                  city: selectedTypeCity.City,
-                },
-                "all"
-              )
-            ).data
-          );
-          router.push({
-            name: "index",
-            query: {
-              city: selectedTypeCity.City,
-              type: 0,
-            },
-          });
+          if (selectedTypeCity.Type == "Restaurant") {
+            resRestaurant.push(
+              ...(
+                await getRestaurant(
+                  {
+                    city: selectedTypeCity.City,
+                  },
+                  "all"
+                )
+              ).data
+            );
+            router.push({
+              name: "hotelRestaurant",
+              query: {
+                ...selectedTypeCity,
+              },
+            });
+          } else if (selectedTypeCity.Type == "Home") {
+            resScenicSpot.push(
+              ...(
+                await getScenicSpot(
+                  {
+                    city: selectedTypeCity.City,
+                  },
+                  "all"
+                )
+              ).data
+            );
+            router.push({
+              name: "index",
+              query: {
+                ...selectedTypeCity,
+              },
+            });
+          }
           break;
         case 1:
-          hotActivity.push(
-            ...(
-              await getTourismActivity(
-                {
-                  city: selectedTypeCity.City,
-                },
-                "all"
-              )
-            ).data
-          );
-          router.push({
-            name: "index",
-            query: {
-              city: selectedTypeCity.City,
-              type: 1,
-            },
-          });
+          if (selectedTypeCity.Type == "Restaurant") {
+             resHotel.push(
+               ...(
+                 await getHotel(
+                   {
+                     city: selectedTypeCity.City,
+                   },
+                   "all"
+                 )
+               ).data
+             );
+             router.push({
+               name: "hotelRestaurant",
+               query: {
+                 ...selectedTypeCity,
+               },
+             });
+          }
+          else if (selectedTypeCity.Type == "Home") {
+             resActivity.push(
+               ...(
+                 await getTourismActivity(
+                   {
+                     city: selectedTypeCity.City,
+                   },
+                   "all"
+                 )
+               ).data
+             );
+             router.push({
+               name: "index",
+               query: {
+                 ...selectedTypeCity,
+               },
+             });
+          }
           break;
       }
     }
@@ -298,6 +342,9 @@ export function useHome() {
     cityOptions,
     searchKeyword,
     resScenicSpot,
+    resActivity,
+    resRestaurant,
+    resHotel,
     curPage,
     showNextPage,
   };

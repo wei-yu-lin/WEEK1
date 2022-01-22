@@ -30,7 +30,7 @@
         </button>
       </div>
       <div class="select-wrap">
-        <select class="form-select" v-model="selectedTypeCity.category">
+        <select class="form-select" v-model="selectedTypeCity.Category">
           <option
             v-for="(item, index) in s_category"
             :value="index"
@@ -41,6 +41,7 @@
         </select>
         <select class="form-select" v-model="updateCity">
           <option value="">不分縣市</option>
+
           <option
             v-for="(item, index) in cityOptions"
             :value="[item.City, item.CityName]"
@@ -49,6 +50,7 @@
             {{ item.CityName }}
           </option>
         </select>
+
         <button class="btn btn-success" @click="cityOptionSearch('Home')">
           <font-awesome-icon icon="search" />
         </button>
@@ -67,12 +69,14 @@ const cityOptionSearch = inject("cityOptionSearch");
 const selectedTypeCity = inject("selectedTypeCity");
 const cityOptions = inject("cityOptions");
 const searchKeyword = inject("searchKeyword");
-const s_category = reactive(["景點", "活動"]);
-
+const props = defineProps({
+  Type: String,
+});
+const s_category = (props.Type)=="Home" ? reactive(["景點", "活動"]):reactive(["餐廳", "住宿"]);
 const updateCity = computed({
-  get: () => "",
+  get: (val) => (val ? val : ""),
   set: (val) => {
-    (selectedTypeCity.City = val[0]), (selectedTypeCity.CityName = val[1]);
+    (selectedTypeCity.City = val[0]), (selectedTypeCity.CityName = val[1]),(selectedTypeCity.Type = props.Type);
   },
 });
 </script>

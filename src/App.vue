@@ -20,6 +20,9 @@ const {
   cityOptions,
   searchKeyword,
   resScenicSpot,
+  resActivity,
+  resRestaurant,
+  resHotel,
   curPage,
   showNextPage
 } = useHome();
@@ -30,6 +33,9 @@ provide("restaurant", restaurant);
 provide("hotel", hotel);
 provide("selectedTypeCity", selectedTypeCity);
 provide("resScenicSpot", resScenicSpot);
+provide("resActivity", resActivity);
+provide("resRestaurant", resRestaurant);
+provide("resHotel", resHotel);
 provide("cityOptionSearch", cityOptionSearch);
 provide("cityOptions", cityOptions);
 provide("searchKeyword", searchKeyword);
