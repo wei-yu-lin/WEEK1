@@ -8,10 +8,10 @@
     </div>
   </div>
   <div class="container">
-    <template v-if="routeQuery.City != undefined">
+    <template v-if="routeQuery.id != undefined">
       <SearchResultsTemp
-        :City="routeQuery.City"
-        :CityName="routeQuery.CityName"
+        :City="routeQuery.id"
+        :CityName="routeQuery.name"
         :Category="Number(routeQuery.Category)"
         :Type="routeQuery.Type"
       />

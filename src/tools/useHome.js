@@ -31,8 +31,7 @@ export function useHome() {
   const resHotel = reactive([]);
 
   const selectedTypeCity = reactive({
-    City: "",
-    CityName: "",
+    City: {id:"",name:""},
     Type: "",
     Category: 0,
   });
@@ -56,13 +55,8 @@ export function useHome() {
           ? resRestaurant.length >= curPage.value * 20
           : resHotel.length >= curPage.value * 20;
     }
-    // if (route.path.includes("/hotel")) {
-    //   return hotel.length >= perPageItem || restaurant.length >= perPageItem;
-    // }
-    // return scenicSpot.length >= perPageItem || activity.length >= perPageItem;
   });
   //watch
-  // watch(curPage, () => refetch());
   watch(loadingCount, () => {
     isLoading.value = !(loadingCount.value === 0);
   });
@@ -77,18 +71,18 @@ export function useHome() {
     }
     return shallowArr;
   };
-  const clearSearchHistory = () => {
-    searchHistory.splice(0, searchHistory.length);
-  };
-  const refetch = () => {
+  const refetch = (type) => {
     resScenicSpot.splice(0, resScenicSpot.length);
     resActivity.splice(0, resActivity.length);
     resRestaurant.splice(0, resRestaurant.length);
     resHotel.splice(0, resHotel.length);
+    selectedTypeCity.Type = type;
   };
-  const cityOptionSearch = async () => {
-    refetch();
-    if (selectedTypeCity.City && selectedTypeCity.Category >= 0) {
+  const cityOptionSearch = async (type) => {
+    refetch(type);
+    if (selectedTypeCity.City.id && selectedTypeCity.Category >= 0) {
+      const {City,...other} = selectedTypeCity
+      console.log(`City=${City},other=${other}`);
       switch (selectedTypeCity.Category) {
         case 0:
           if (selectedTypeCity.Type == "Restaurant") {
@@ -96,7 +90,7 @@ export function useHome() {
               ...(
                 await getRestaurant(
                   {
-                    city: selectedTypeCity.City,
+                    city: selectedTypeCity.City.id,
                   },
                   "all"
                 )
@@ -105,7 +99,8 @@ export function useHome() {
             router.push({
               name: "hotelRestaurant",
               query: {
-                ...selectedTypeCity,
+                ...City,
+                ...other,
               },
             });
           } else if (selectedTypeCity.Type == "Home") {
@@ -113,7 +108,7 @@ export function useHome() {
               ...(
                 await getScenicSpot(
                   {
-                    city: selectedTypeCity.City,
+                    city: selectedTypeCity.City.id,
                   },
                   "all"
                 )
@@ -122,7 +117,8 @@ export function useHome() {
             router.push({
               name: "index",
               query: {
-                ...selectedTypeCity,
+                ...City,
+                ...other,
               },
             });
           }
@@ -133,7 +129,7 @@ export function useHome() {
                ...(
                  await getHotel(
                    {
-                     city: selectedTypeCity.City,
+                     city: selectedTypeCity.City.id,
                    },
                    "all"
                  )
@@ -142,7 +138,8 @@ export function useHome() {
              router.push({
                name: "hotelRestaurant",
                query: {
-                 ...selectedTypeCity,
+                 ...City,
+                 ...other,
                },
              });
           }
@@ -151,7 +148,7 @@ export function useHome() {
                ...(
                  await getTourismActivity(
                    {
-                     city: selectedTypeCity.City,
+                     city: selectedTypeCity.City.id,
                    },
                    "all"
                  )
@@ -160,7 +157,8 @@ export function useHome() {
              router.push({
                name: "index",
                query: {
-                 ...selectedTypeCity,
+                 ...City,
+                 ...other,
                },
              });
           }
@@ -168,9 +166,8 @@ export function useHome() {
       }
     }
   };
-  const textSearch = () => {};
 
-  const searchByKeyword = async () => {
+  const cityInputSearch = async () => {
     let filter;
     if (searchKeyword.value) {
       filter = `contains(Name,'${searchKeyword.value}')`;
@@ -184,7 +181,7 @@ export function useHome() {
 
     let city, type;
 
-    if (selectedTypeCity.City) city = selectedTypeCity.City;
+    if (selectedTypeCity.City.id) city = selectedTypeCity.City.id;
     if (selectedType.value) type = selectedType.value;
 
     // switch (type) {
@@ -335,6 +332,7 @@ export function useHome() {
     selectedTypeCity,
     fetchData,
     cityOptionSearch,
+    cityInputSearch,
     hotCity,
     hotActivity,
     restaurant,

@@ -16,6 +16,7 @@ const {
   restaurant,
   hotel,
   cityOptionSearch,
+  cityInputSearch,
   selectedTypeCity,
   cityOptions,
   searchKeyword,
@@ -37,6 +38,7 @@ provide("resActivity", resActivity);
 provide("resRestaurant", resRestaurant);
 provide("resHotel", resHotel);
 provide("cityOptionSearch", cityOptionSearch);
+provide("cityInputSearch", cityInputSearch);
 provide("cityOptions", cityOptions);
 provide("searchKeyword", searchKeyword);
 provide("curPage", curPage);

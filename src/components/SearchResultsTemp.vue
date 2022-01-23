@@ -98,7 +98,6 @@ const attractionsArr = computed(() => {
 
 const hotelAddress = (address) => {
   const re = new RegExp("[\u4e00-\u9fa5]+", "g");
-  console.log(address.match(re));
   if (address) {
     return address.match(re).length > 1
       ? address.match(re)[0] + address.match(re)[1].substring(0, 3)
