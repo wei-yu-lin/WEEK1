@@ -1,3 +1,4 @@
+import { faLaptopHouse } from "@fortawesome/free-solid-svg-icons";
 import { defaultIfEmpty, raceWith } from "rxjs";
 import { GET } from "./requestHeaders";
 
@@ -14,9 +15,7 @@ function formatRequestUrl(url, param, type = "other") {
 
     if (city) url += `/${city}`;
 
-    if (keys.filter) {
-      keys.filter += ` and ${defaultFilter}`;
-    } else {
+    if (!keys.filter) {
       keys.filter = defaultFilter;
     }
 
@@ -24,7 +23,6 @@ function formatRequestUrl(url, param, type = "other") {
       keys.skip = (keys.page - 1) * 30;
       delete keys.page;
     }
-
 
   return (
     url +
@@ -36,12 +34,9 @@ function testUrl(url, param, type = "other") {
   const { city, ...keys } =
     type === "other" ? Object.assign({}, defaultParam, param) : param;
 
-
     if (city) url += `/${city}`;
 
-    if (keys.filter) {
-      keys.filter += ` and ${defaultFilter}`;
-    } else {
+    if (!keys.filter) {
       keys.filter = defaultFilter;
     }
 
@@ -64,7 +59,8 @@ export const getScenicSpot = (parmas, type) =>
   GET(formatRequestUrl("/ScenicSpot", parmas, type));
 export const getTourismActivity = (parmas) =>
   GET(formatRequestUrl("/Activity", parmas));
-export const getRestaurant = (params) =>
-  GET(formatRequestUrl("/Restaurant", params));
-export const getHotel = (params) => GET(formatRequestUrl("/Hotel", params));
+export const getRestaurant = (params, type) =>
+  GET(formatRequestUrl("/Restaurant", params, type));
+export const getHotel = (params, type) =>
+  GET(formatRequestUrl("/Hotel", params, type));
 export const yo = (parmas, type) => GET(testUrl("/ScenicSpot", parmas, type));

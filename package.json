@@ -17,6 +17,7 @@
     "jssha": "^3.2.0",
     "rxjs": "^7.4.0",
     "vue": "^3.2.16",
+    "vue-loading-overlay": "5.0",
     "vue-router": "4"
   },
   "devDependencies": {

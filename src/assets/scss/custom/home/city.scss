@@ -11,7 +11,12 @@ ul {
   margin-top: 30px;
   align-items: center;
 }
-
+@mixin flex-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .hotCity-wrapper {
   display: flex;
   height: 250px;
@@ -78,10 +83,7 @@ ul {
   width: 100%;
   height: 100%;
   position: absolute;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  @include flex-center
 }
 .hotCity-text {
   font-family: Noto Sans TC;

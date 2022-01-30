@@ -11,6 +11,7 @@ import {
   getTourismActivity,
   getRestaurant,
   getHotel,
+  yo,
 } from "@/api";
 
 export function useHome() {
@@ -31,7 +32,7 @@ export function useHome() {
   const resHotel = reactive([]);
 
   const selectedTypeCity = reactive({
-    City: {id:"",name:""},
+    City: { id: "", name: "" },
     Type: "",
     Category: 0,
   });
@@ -39,7 +40,6 @@ export function useHome() {
   // ref
   const isLoading = ref(false);
   const loadingCount = ref(0);
-  const searchKeyword = ref("");
   const curPage = ref(1);
 
   // computed
@@ -56,11 +56,7 @@ export function useHome() {
           : resHotel.length >= curPage.value * 20;
     }
   });
-  //watch
-  watch(loadingCount, () => {
-    isLoading.value = !(loadingCount.value === 0);
-  });
-
+  
   // Public Function
   const shuffle = (array) => {
     const shallowArr = JSON.parse(JSON.stringify(array));
@@ -71,17 +67,17 @@ export function useHome() {
     }
     return shallowArr;
   };
-  const refetch = (type) => {
+  const refetch = () => {
     resScenicSpot.splice(0, resScenicSpot.length);
     resActivity.splice(0, resActivity.length);
     resRestaurant.splice(0, resRestaurant.length);
     resHotel.splice(0, resHotel.length);
-    selectedTypeCity.Type = type;
   };
   const cityOptionSearch = async (type) => {
-    refetch(type);
+    selectedTypeCity.Type = type;
+    refetch();
     if (selectedTypeCity.City.id && selectedTypeCity.Category >= 0) {
-      const {City,...other} = selectedTypeCity
+      const { City, ...other } = selectedTypeCity;
       console.log(`City=${City},other=${other}`);
       switch (selectedTypeCity.Category) {
         case 0:
@@ -125,92 +121,90 @@ export function useHome() {
           break;
         case 1:
           if (selectedTypeCity.Type == "Restaurant") {
-             resHotel.push(
-               ...(
-                 await getHotel(
-                   {
-                     city: selectedTypeCity.City.id,
-                   },
-                   "all"
-                 )
-               ).data
-             );
-             router.push({
-               name: "hotelRestaurant",
-               query: {
-                 ...City,
-                 ...other,
-               },
-             });
-          }
-          else if (selectedTypeCity.Type == "Home") {
-             resActivity.push(
-               ...(
-                 await getTourismActivity(
-                   {
-                     city: selectedTypeCity.City.id,
-                   },
-                   "all"
-                 )
-               ).data
-             );
-             router.push({
-               name: "index",
-               query: {
-                 ...City,
-                 ...other,
-               },
-             });
+            resHotel.push(
+              ...(
+                await getHotel(
+                  {
+                    city: selectedTypeCity.City.id,
+                  },
+                  "all"
+                )
+              ).data
+            );
+            router.push({
+              name: "hotelRestaurant",
+              query: {
+                ...City,
+                ...other,
+              },
+            });
+          } else if (selectedTypeCity.Type == "Home") {
+            resActivity.push(
+              ...(
+                await getTourismActivity(
+                  {
+                    city: selectedTypeCity.City.id,
+                  },
+                  "all"
+                )
+              ).data
+            );
+            router.push({
+              name: "index",
+              query: {
+                ...City,
+                ...other,
+              },
+            });
           }
           break;
       }
     }
   };
 
-  const cityInputSearch = async () => {
-    let filter;
-    if (searchKeyword.value) {
-      filter = `contains(Name,'${searchKeyword.value}')`;
-      const keywordIdx = searchHistory.indexOf(searchKeyword.value);
-      if (keywordIdx > -1) {
-        searchHistory.splice(keywordIdx, 1);
-      }
+  const cityInputSearch = async (keyword) => {
+    let restaurantData, hotelData, scenicSpotData;
+    refetch();
+    isLoading.value = true
+    restaurantData = (
+      await getRestaurant(
+        { filter: `contains(RestaurantName, '${keyword}')` },
+        "all"
+      )
+    ).data;
+    hotelData = (
+      await getHotel({ filter: `contains(HotelName, '${keyword}')` }, "all")
+    ).data;
+    scenicSpotData = (
+      await getScenicSpot(
+        { filter: `contains(ScenicSpotName, '${keyword}')` },
+        "all"
+      )
+    ).data;
 
-      searchHistory.unshift(searchKeyword.value);
-    }
+    scenicSpotData.forEach((item) => {
+      item.ScenicSpotName = item.ScenicSpotName.replace(/_|ˍ/g, " ");
+    });
+    restaurantData.forEach((item) => {
+      item.RestaurantName = item.RestaurantName.replace(/_|ˍ/g, " ");
+    });
+    hotelData.forEach((item) => {
+      item.HotelName = item.HotelName.replace(/_|ˍ/g, " ");
+    });
 
-    let city, type;
-
-    if (selectedTypeCity.City.id) city = selectedTypeCity.City.id;
-    if (selectedType.value) type = selectedType.value;
-
-    // switch (type) {
-    //   case 'ScenicSpot':
-    //     return fetchScenicSpot()
-    //   case 'Hotel':
-    //     return fetchHotel()
-    //   case 'Restaurant':
-    //     return fetchRestaurant()
-    //   case 'Activity':
-    //     return fetchActivity()
-    // }
-
-    if (route.path.includes("hotel")) {
-      const resp1 = await getHotel({ city, filter, page: curPage.value });
-      const resp2 = await getRestaurant({ city, filter, page: curPage.value });
-      hotel.splice(0, hotel.length);
-      restaurant.splice(0, restaurant.length);
-      hotel.push(...resp1.data);
-      restaurant.push(...resp2.data);
-      return;
-    }
-
-    const resp1 = await getActivity({ city, filter, page: curPage.value });
-    const resp2 = await getScenicSpot({ city, filter, page: curPage.value });
-    scenicSpot.splice(0, scenicSpot.length);
-    activity.splice(0, activity.length);
-    scenicSpot.push(...resp2.data);
-    activity.push(...resp1.data);
+    resScenicSpot.push(
+      ...scenicSpotData.filter((value) => value.ScenicSpotName.match(keyword))
+    );
+    resRestaurant.push(
+      ...restaurantData.filter((value) => value.RestaurantName.match(keyword))
+    );
+    resHotel.push(
+      ...hotelData.filter((value) => value.HotelName.match(keyword))
+    );
+    isLoading.value = false;
+    router.push({
+      name: "test"
+    });
   };
 
   //取得資料function
@@ -338,12 +332,12 @@ export function useHome() {
     restaurant,
     hotel,
     cityOptions,
-    searchKeyword,
     resScenicSpot,
     resActivity,
     resRestaurant,
     resHotel,
     curPage,
     showNextPage,
+    isLoading
   };
 }

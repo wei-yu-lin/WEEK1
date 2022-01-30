@@ -4,6 +4,9 @@ import {
   faCaretLeft,
   faCaretRight,
   faSearch,
+  faCamera,
+  faUtensils,
+  faBed,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { createRouter, createWebHistory } from "vue-router";
@@ -16,7 +19,7 @@ const router = createRouter({
   routes,
 });
 const app = createApp(App);
-library.add(faCaretLeft, faCaretRight, faSearch);
+library.add(faCaretLeft, faCaretRight, faSearch, faCamera, faUtensils, faBed);
 app.component("font-awesome-icon", FontAwesomeIcon);
 app.use(router);
 app.mount("#app");

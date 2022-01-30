@@ -1,4 +1,5 @@
 <template>
+  <Loading :active.sync="isLoading" loader="dots"/>
   <router-view />
   <Footer />
 </template>
@@ -6,9 +7,12 @@
 @import "@/assets/scss/main.scss";
 </style>
 <script setup>
-import { provide } from "vue";
+import { provide,onMounted } from "vue";
 import { useHome } from "@/tools/useHome.js";
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 import Footer from "@/components/Layout/Footer.vue";
+
 const {
   fetchData,
   hotCity,
@@ -19,14 +23,20 @@ const {
   cityInputSearch,
   selectedTypeCity,
   cityOptions,
-  searchKeyword,
   resScenicSpot,
   resActivity,
   resRestaurant,
   resHotel,
   curPage,
-  showNextPage
+  showNextPage,
+  isLoading
 } = useHome();
+// onMounted(()=>{
+//   setTimeout(() => {
+//     isLoading.value = false
+//   }, 2000);
+//   isLoading.value = true
+// })
 provide("fetchData", fetchData);
 provide("hotCity", hotCity);
 provide("hotActivity", hotActivity);
@@ -40,7 +50,7 @@ provide("resHotel", resHotel);
 provide("cityOptionSearch", cityOptionSearch);
 provide("cityInputSearch", cityInputSearch);
 provide("cityOptions", cityOptions);
-provide("searchKeyword", searchKeyword);
 provide("curPage", curPage);
 provide("showNextPage", showNextPage);
+provide("isLoading", isLoading);
 </script>
