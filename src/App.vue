@@ -29,14 +29,15 @@ const {
   resHotel,
   curPage,
   showNextPage,
-  isLoading
+  isLoading,
+  sliceItems
 } = useHome();
-// onMounted(()=>{
-//   setTimeout(() => {
-//     isLoading.value = false
-//   }, 2000);
-//   isLoading.value = true
-// })
+onMounted(()=>{
+  setTimeout(() => {
+    isLoading.value = false
+  }, 3000);
+  isLoading.value = true
+})
 provide("fetchData", fetchData);
 provide("hotCity", hotCity);
 provide("hotActivity", hotActivity);
@@ -53,4 +54,5 @@ provide("cityOptions", cityOptions);
 provide("curPage", curPage);
 provide("showNextPage", showNextPage);
 provide("isLoading", isLoading);
+provide("sliceItems", sliceItems);
 </script>

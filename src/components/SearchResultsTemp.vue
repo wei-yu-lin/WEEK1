@@ -11,7 +11,7 @@
         <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
           <div
             class="col"
-            v-for="(data, index) in attractionsArr"
+            v-for="(data, index) in attractionsArr[0]"
             :key="`attractions_${index}`"
           >
             <div class="border bg-light d-flex flex-column p-2">
@@ -37,20 +37,13 @@
           </div>
         </div>
       </div>
-      <div class="horizon-scroll justify-content-center mb-3">
-        <button v-show="curPage > 1" class="arrow-icon" @click="nextArr(-1)">
-          <font-awesome-icon icon="caret-left" class="text-light" />
-        </button>
-        <p class="mx-3">{{ curPage }}</p>
-        <button v-show="showNextPage" class="arrow-icon" @click="nextArr(1)">
-          <font-awesome-icon icon="caret-right" class="text-light" />
-        </button>
-      </div>
+      <Pagination :data-length="attractionsArr[1]"/>
     </section>
 </template>
 
 <script setup>
 import { inject, computed ,reactive} from "vue";
+import Pagination from '@/components/Pagination/index.vue'
 const props = defineProps({
   city: String,
   CityName: String,
@@ -60,14 +53,9 @@ const props = defineProps({
 let resInject,resLen;
 const s_category = (props.Type)=="Home" ? reactive(["景點", "活動"]):reactive(["餐廳", "住宿"]);
 const curPage = inject("curPage");
-const showNextPage = inject("showNextPage");
-
-const nextArr = (num) => {
-  curPage.value += num;
-};
+const sliceItems = inject("sliceItems");
 
 const attractionsArr = computed(() => {
-
   switch (props.Category) {
     case 0:
       if (props.Type == "Home") {
@@ -87,13 +75,7 @@ const attractionsArr = computed(() => {
       resLen = resInject.length;
       break;
   }
-  if (curPage.value > 1) {
-    if (resLen % ((curPage.value - 1) * 20) < resLen) {
-      return resInject.slice((curPage.value - 1) * 20, curPage.value * 20);
-    }
-  } else {
-    return 20 > resLen ? resInject : resInject.slice(0, 20);
-  }
+  return [sliceItems(resInject),resLen]
 });
 
 const hotelAddress = (address) => {

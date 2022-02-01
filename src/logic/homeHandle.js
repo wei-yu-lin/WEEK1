@@ -51,7 +51,6 @@ export function activityLogic() {
     if (image.length > 1) {
       if (status) {
         pageIndex.value += 1;
-        console.log(pageIndex.value);
         if (pageIndex.value == image.length - 1) {
           buttonStatus.next = false;
         } else if (pageIndex.value >= 0) {
@@ -60,7 +59,6 @@ export function activityLogic() {
         }
       } else {
         pageIndex.value -= 1;
-        console.log(pageIndex.value);
         if (pageIndex.value > 0) {
           buttonStatus.next = true;
           buttonStatus.back = true;

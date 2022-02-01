@@ -1,10 +1,22 @@
 // Npm Moudle
-import { Observable } from "rxjs";
+import {
+  Observable
+} from "rxjs";
 //Vue lib
-import { useRoute, useRouter } from "vue-router";
-import { ref, reactive, computed, watch } from "vue";
+import {
+  useRoute,
+  useRouter
+} from "vue-router";
+import {
+  ref,
+  reactive,
+  computed,
+  watch
+} from "vue";
 //台灣城市名稱
-import { city } from "@/tools/cityName.js";
+import {
+  city
+} from "@/tools/cityName.js";
 //取得熱門景點資料
 import {
   getScenicSpot,
@@ -32,7 +44,10 @@ export function useHome() {
   const resHotel = reactive([]);
 
   const selectedTypeCity = reactive({
-    City: { id: "", name: "" },
+    City: {
+      id: "",
+      name: ""
+    },
     Type: "",
     Category: 0,
   });
@@ -43,21 +58,20 @@ export function useHome() {
   const curPage = ref(1);
 
   // computed
-  const showNextPage = computed(() => {
-    switch (selectedTypeCity.Type) {
-      case "Home":
-        return selectedTypeCity.Category == 0
-          ? resScenicSpot.length >= curPage.value * 20
-          : resActivity.length >= curPage.value * 20;
+  const showNextPage = (dataLength) => dataLength >= curPage.value * 20
 
-      case "HotelRestaurant":
-        return selectedTypeCity.Category == 0
-          ? resRestaurant.length >= curPage.value * 20
-          : resHotel.length >= curPage.value * 20;
-    }
-  });
-  
   // Public Function
+  const sliceItems = (data) => {
+    const resLen = data.length;
+    if (curPage.value > 1) {
+      if (resLen % ((curPage.value - 1) * 20) < resLen) {
+        return data.slice((curPage.value - 1) * 20, curPage.value * 20);
+      }
+    } else {
+      return 20 > resLen ? data : data.slice(0, 20);
+    }
+
+  }
   const shuffle = (array) => {
     const shallowArr = JSON.parse(JSON.stringify(array));
 
@@ -67,27 +81,29 @@ export function useHome() {
     }
     return shallowArr;
   };
-  const refetch = () => {
+  const refetch = (type) => {
+    selectedTypeCity.Type = type;
     resScenicSpot.splice(0, resScenicSpot.length);
     resActivity.splice(0, resActivity.length);
     resRestaurant.splice(0, resRestaurant.length);
     resHotel.splice(0, resHotel.length);
   };
   const cityOptionSearch = async (type) => {
-    selectedTypeCity.Type = type;
-    refetch();
+    isLoading.value = true
+    refetch(type);
     if (selectedTypeCity.City.id && selectedTypeCity.Category >= 0) {
-      const { City, ...other } = selectedTypeCity;
-      console.log(`City=${City},other=${other}`);
+      const {
+        City,
+        ...other
+      } = selectedTypeCity;
       switch (selectedTypeCity.Category) {
         case 0:
           if (selectedTypeCity.Type == "Restaurant") {
             resRestaurant.push(
               ...(
-                await getRestaurant(
-                  {
-                    city: selectedTypeCity.City.id,
-                  },
+                await getRestaurant({
+                  city: selectedTypeCity.City.id,
+                },
                   "all"
                 )
               ).data
@@ -102,10 +118,9 @@ export function useHome() {
           } else if (selectedTypeCity.Type == "Home") {
             resScenicSpot.push(
               ...(
-                await getScenicSpot(
-                  {
-                    city: selectedTypeCity.City.id,
-                  },
+                await getScenicSpot({
+                  city: selectedTypeCity.City.id,
+                },
                   "all"
                 )
               ).data
@@ -123,10 +138,9 @@ export function useHome() {
           if (selectedTypeCity.Type == "Restaurant") {
             resHotel.push(
               ...(
-                await getHotel(
-                  {
-                    city: selectedTypeCity.City.id,
-                  },
+                await getHotel({
+                  city: selectedTypeCity.City.id,
+                },
                   "all"
                 )
               ).data
@@ -141,10 +155,9 @@ export function useHome() {
           } else if (selectedTypeCity.Type == "Home") {
             resActivity.push(
               ...(
-                await getTourismActivity(
-                  {
-                    city: selectedTypeCity.City.id,
-                  },
+                await getTourismActivity({
+                  city: selectedTypeCity.City.id,
+                },
                   "all"
                 )
               ).data
@@ -160,24 +173,29 @@ export function useHome() {
           break;
       }
     }
+    isLoading.value = false
   };
 
-  const cityInputSearch = async (keyword) => {
+  const cityInputSearch = async (keyword, type) => {
     let restaurantData, hotelData, scenicSpotData;
-    refetch();
+    refetch(type);
     isLoading.value = true
     restaurantData = (
-      await getRestaurant(
-        { filter: `contains(RestaurantName, '${keyword}')` },
+      await getRestaurant({
+        filter: `contains(RestaurantName, '${keyword}')`
+      },
         "all"
       )
     ).data;
     hotelData = (
-      await getHotel({ filter: `contains(HotelName, '${keyword}')` }, "all")
+      await getHotel({
+        filter: `contains(HotelName, '${keyword}')`
+      }, "all")
     ).data;
     scenicSpotData = (
-      await getScenicSpot(
-        { filter: `contains(ScenicSpotName, '${keyword}')` },
+      await getScenicSpot({
+        filter: `contains(ScenicSpotName, '${keyword}')`
+      },
         "all"
       )
     ).data;
@@ -213,10 +231,15 @@ export function useHome() {
     try {
       const getCityTourism = async (city) => {
         //取得各縣市第一張照片，並與city的object回傳
-        const resp = (await getScenicSpot({ city: city.City })).data;
+        const resp = (await getScenicSpot({
+          city: city.City
+        })).data;
         const [firstGet] = shuffle(resp);
         const image = firstGet?.Picture?.PictureUrl1;
-        return { ...city, image };
+        return {
+          ...city,
+          image
+        };
       };
 
       const city$ = new Observable((subscriber) => {
@@ -267,7 +290,9 @@ export function useHome() {
     try {
       const getCityActivity = async (city) => {
         //取得各縣市第一張照片，並與city的object回傳
-        const resp = (await getTourismActivity({ city: city.City })).data;
+        const resp = (await getTourismActivity({
+          city: city.City
+        })).data;
         const [firstGet] = shuffle(resp);
         const image = firstGet?.Picture;
         const imageArr = [];
@@ -280,7 +305,13 @@ export function useHome() {
         const Description = firstGet?.Description;
         const Location = firstGet?.Location;
         const Time = [firstGet?.StartTime, firstGet?.EndTime];
-        return { Description, ActivityName, Location, Time, imageArr };
+        return {
+          Description,
+          ActivityName,
+          Location,
+          Time,
+          imageArr
+        };
       };
       const cities = shuffle(cityOptions);
       hotActivity.splice(0, hotActivity.length); // 清空陣列
@@ -338,6 +369,7 @@ export function useHome() {
     resHotel,
     curPage,
     showNextPage,
-    isLoading
+    isLoading,
+    sliceItems
   };
 }
