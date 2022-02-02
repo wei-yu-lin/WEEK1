@@ -20,8 +20,10 @@
           <div class="hotCity-overlay">
             <HotCityGps/>
             <span class="hotCity-text">{{item.CityName}}</span>
+            <a @click="cityInputSearch(item.CityName.substring(0,2))" class="stretched-link"/>
           </div>
-          <img class="hotCity-img" :src="item.image" />
+          <img v-if="item.image" class="hotCity-img" :src="item.image" />
+          <img v-else class="hotCity-img" src="@/assets/images/no_picture_scenic_spot.jpg" />
         </li>
       </ul>
       <button class="arrow-icon" @click="cityMove(true,hotCity.length)">
@@ -38,7 +40,9 @@ import { inject, computed } from "vue";
 import ThemeTriangle from "@/assets/images/Theme-Triangle.svg";
 import HotCityGps from "@/assets/images/HotCity-GPS.svg";
 import {hotCityLogic} from "@/logic/homeHandle.js";
+// inject
 const hotCity = inject("hotCity");
+const cityInputSearch = inject("cityInputSearch");
 
 const {
   cityMove,

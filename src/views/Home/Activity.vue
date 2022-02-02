@@ -9,7 +9,7 @@
       v-for="(Activity, index) in hotActivity"
       :key="index"
     >
-      <div class="card h-100 justify-content-center">
+      <div class="card ">
         <div class="row g-0" style="min-height: 242px;">
           <div class="d-flex col-md-4 align-items-center">
             <img :src="Activity.imageArr[0]" class="activity-image rounded" />

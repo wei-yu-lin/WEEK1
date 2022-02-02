@@ -1,22 +1,10 @@
 // Npm Moudle
-import {
-  Observable
-} from "rxjs";
+import { Observable } from "rxjs";
 //Vue lib
-import {
-  useRoute,
-  useRouter
-} from "vue-router";
-import {
-  ref,
-  reactive,
-  computed,
-  watch
-} from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { ref, reactive, computed, watch } from "vue";
 //台灣城市名稱
-import {
-  city
-} from "@/tools/cityName.js";
+import { city } from "@/tools/cityName.js";
 //取得熱門景點資料
 import {
   getScenicSpot,
@@ -46,7 +34,7 @@ export function useHome() {
   const selectedTypeCity = reactive({
     City: {
       id: "",
-      name: ""
+      name: "",
     },
     Type: "",
     Category: 0,
@@ -54,11 +42,10 @@ export function useHome() {
 
   // ref
   const isLoading = ref(false);
-  const loadingCount = ref(0);
   const curPage = ref(1);
 
   // computed
-  const showNextPage = (dataLength) => dataLength >= curPage.value * 20
+  const showNextPage = (dataLength) => dataLength >= curPage.value * 20;
 
   // Public Function
   const sliceItems = (data) => {
@@ -70,40 +57,36 @@ export function useHome() {
     } else {
       return 20 > resLen ? data : data.slice(0, 20);
     }
-
-  }
+  };
   const shuffle = (array) => {
     const shallowArr = JSON.parse(JSON.stringify(array));
-
     for (let i = shallowArr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [shallowArr[i], shallowArr[j]] = [shallowArr[j], shallowArr[i]];
     }
     return shallowArr;
   };
-  const refetch = (type) => {
-    selectedTypeCity.Type = type;
+  const refetch = () => {
     resScenicSpot.splice(0, resScenicSpot.length);
     resActivity.splice(0, resActivity.length);
     resRestaurant.splice(0, resRestaurant.length);
     resHotel.splice(0, resHotel.length);
   };
   const cityOptionSearch = async (type) => {
-    isLoading.value = true
-    refetch(type);
+    isLoading.value = true;
+    selectedTypeCity.Type = type;
+    refetch();
     if (selectedTypeCity.City.id && selectedTypeCity.Category >= 0) {
-      const {
-        City,
-        ...other
-      } = selectedTypeCity;
+      const { City, ...other } = selectedTypeCity;
       switch (selectedTypeCity.Category) {
         case 0:
           if (selectedTypeCity.Type == "Restaurant") {
             resRestaurant.push(
               ...(
-                await getRestaurant({
-                  city: selectedTypeCity.City.id,
-                },
+                await getRestaurant(
+                  {
+                    city: selectedTypeCity.City.id,
+                  },
                   "all"
                 )
               ).data
@@ -118,9 +101,10 @@ export function useHome() {
           } else if (selectedTypeCity.Type == "Home") {
             resScenicSpot.push(
               ...(
-                await getScenicSpot({
-                  city: selectedTypeCity.City.id,
-                },
+                await getScenicSpot(
+                  {
+                    city: selectedTypeCity.City.id,
+                  },
                   "all"
                 )
               ).data
@@ -138,9 +122,10 @@ export function useHome() {
           if (selectedTypeCity.Type == "Restaurant") {
             resHotel.push(
               ...(
-                await getHotel({
-                  city: selectedTypeCity.City.id,
-                },
+                await getHotel(
+                  {
+                    city: selectedTypeCity.City.id,
+                  },
                   "all"
                 )
               ).data
@@ -155,9 +140,10 @@ export function useHome() {
           } else if (selectedTypeCity.Type == "Home") {
             resActivity.push(
               ...(
-                await getTourismActivity({
-                  city: selectedTypeCity.City.id,
-                },
+                await getTourismActivity(
+                  {
+                    city: selectedTypeCity.City.id,
+                  },
                   "all"
                 )
               ).data
@@ -173,29 +159,34 @@ export function useHome() {
           break;
       }
     }
-    isLoading.value = false
+    isLoading.value = false;
   };
 
-  const cityInputSearch = async (keyword, type) => {
+  const cityInputSearch = async (keyword) => {
     let restaurantData, hotelData, scenicSpotData;
-    refetch(type);
-    isLoading.value = true
+    refetch();
+    isLoading.value = true;
     restaurantData = (
-      await getRestaurant({
-        filter: `contains(RestaurantName, '${keyword}')`
-      },
+      await getRestaurant(
+        {
+          filter: `contains(RestaurantName, '${keyword}')`,
+        },
         "all"
       )
     ).data;
     hotelData = (
-      await getHotel({
-        filter: `contains(HotelName, '${keyword}')`
-      }, "all")
+      await getHotel(
+        {
+          filter: `contains(HotelName, '${keyword}')`,
+        },
+        "all"
+      )
     ).data;
     scenicSpotData = (
-      await getScenicSpot({
-        filter: `contains(ScenicSpotName, '${keyword}')`
-      },
+      await getScenicSpot(
+        {
+          filter: `contains(ScenicSpotName, '${keyword}')`,
+        },
         "all"
       )
     ).data;
@@ -210,42 +201,48 @@ export function useHome() {
       item.HotelName = item.HotelName.replace(/_|ˍ/g, " ");
     });
 
-    resScenicSpot.push(
-      ...scenicSpotData.filter((value) => value.ScenicSpotName.match(keyword))
-    );
-    resRestaurant.push(
-      ...restaurantData.filter((value) => value.RestaurantName.match(keyword))
-    );
-    resHotel.push(
-      ...hotelData.filter((value) => value.HotelName.match(keyword))
-    );
+    resScenicSpot.push(...scenicSpotData);
+    resRestaurant.push(...restaurantData);
+    resHotel.push(...hotelData);
+    // resScenicSpot.push(
+    //   ...scenicSpotData.filter((value) => value.ScenicSpotName.match(keyword))
+    // );
+    // resRestaurant.push(
+    //   ...restaurantData.filter((value) => value.RestaurantName.match(keyword))
+    // );
+    // resHotel.push(
+    //   ...hotelData.filter((value) => value.HotelName.match(keyword))
+    // );
     isLoading.value = false;
     router.push({
-      name: "test"
+      name: "result",
+      query: { keyword },
     });
   };
 
   //取得資料function
   const fetchHotCity = async () => {
-    loadingCount.value += 1;
     try {
-      const getCityTourism = async (city) => {
+      const getCityTourism = async (city, index) => {
         //取得各縣市第一張照片，並與city的object回傳
-        const resp = (await getScenicSpot({
-          city: city.City
-        })).data;
+        const resp = (
+          await getScenicSpot({
+            city: city.City,
+          })
+        ).data;
         const [firstGet] = shuffle(resp);
         const image = firstGet?.Picture?.PictureUrl1;
         return {
           ...city,
-          image
+          image,
         };
       };
 
       const city$ = new Observable((subscriber) => {
         const cities = shuffle(cityOptions);
+
         cities.map((el, i) => {
-          getCityTourism(el).then((resp) => {
+          getCityTourism(el, i).then((resp) => {
             subscriber.next(resp);
             if (i === cities.length - 1) {
               subscriber.complete();
@@ -261,7 +258,6 @@ export function useHome() {
         },
         error: (error) => {
           console.error(error);
-          loadingCount.value -= 1;
         },
         complete: () => {
           hotCity.splice(0, hotCity.length); // 清空陣列
@@ -278,7 +274,6 @@ export function useHome() {
               return prev;
             }, [])
           );
-          loadingCount.value -= 1;
         },
       });
     } catch (e) {
@@ -290,9 +285,11 @@ export function useHome() {
     try {
       const getCityActivity = async (city) => {
         //取得各縣市第一張照片，並與city的object回傳
-        const resp = (await getTourismActivity({
-          city: city.City
-        })).data;
+        const resp = (
+          await getTourismActivity({
+            city: city.City,
+          })
+        ).data;
         const [firstGet] = shuffle(resp);
         const image = firstGet?.Picture;
         const imageArr = [];
@@ -310,7 +307,7 @@ export function useHome() {
           ActivityName,
           Location,
           Time,
-          imageArr
+          imageArr,
         };
       };
       const cities = shuffle(cityOptions);
@@ -352,7 +349,6 @@ export function useHome() {
     fetchRestaurant();
     fetchHotel();
   };
-
   return {
     selectedTypeCity,
     fetchData,
@@ -370,6 +366,6 @@ export function useHome() {
     curPage,
     showNextPage,
     isLoading,
-    sliceItems
+    sliceItems,
   };
 }

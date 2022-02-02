@@ -18,10 +18,10 @@
           v-model="searchKeyword"
         />
         <button
-          class="btn btn-success"
+          class="btn btn-danger"
           id="id_search_button"
           :disabled="searchKeyword == ''"
-          @click="cityInputSearch(searchKeyword, 'Search')"
+          @click="cityInputSearch(searchKeyword)"
         >
           搜尋
         </button>
@@ -55,7 +55,7 @@
           </option>
         </select>
         <button
-          class="btn btn-success"
+          class="btn btn-danger"
           :disabled="selectedTypeCity.City.id == ''"
           @click="cityOptionSearch(props.Type)"
         >
