@@ -76,86 +76,58 @@ export function useHome() {
     isLoading.value = true;
     selectedTypeCity.Type = type;
     refetch();
+    const test = {
+      Restaurant: [
+        [resRestaurant, getRestaurant],
+        [resHotel, getHotel],
+      ],
+      Home: [
+        [resScenicSpot, getScenicSpot],
+        [resActivity, getTourismActivity],
+      ],
+    };
     if (selectedTypeCity.City.id && selectedTypeCity.Category >= 0) {
       const { City, ...other } = selectedTypeCity;
-      switch (selectedTypeCity.Category) {
-        case 0:
-          if (selectedTypeCity.Type == "Restaurant") {
-            resRestaurant.push(
-              ...(
-                await getRestaurant(
-                  {
-                    city: selectedTypeCity.City.id,
-                  },
-                  "all"
-                )
-              ).data
-            );
-            router.push({
-              name: "hotelRestaurant",
-              query: {
-                ...City,
-                ...other,
-              },
-            });
-          } else if (selectedTypeCity.Type == "Home") {
-            resScenicSpot.push(
-              ...(
-                await getScenicSpot(
-                  {
-                    city: selectedTypeCity.City.id,
-                  },
-                  "all"
-                )
-              ).data
-            );
-            router.push({
-              name: "index",
-              query: {
-                ...City,
-                ...other,
-              },
-            });
-          }
+      const resArray = test[selectedTypeCity.Type][selectedTypeCity.Category][0];
+      const resApi = test[selectedTypeCity.Type][selectedTypeCity.Category][1];
+      switch (selectedTypeCity.Type) {
+        case "Restaurant":
+          resArray.push(
+            ...(
+              await resApi(
+                {
+                  city: selectedTypeCity.City.id,
+                },
+                "all"
+              )
+            ).data
+          );
+          router.push({
+            name: "hotelRestaurant",
+            query: {
+              ...City,
+              ...other,
+            },
+          });
           break;
-        case 1:
-          if (selectedTypeCity.Type == "Restaurant") {
-            resHotel.push(
-              ...(
-                await getHotel(
-                  {
-                    city: selectedTypeCity.City.id,
-                  },
-                  "all"
-                )
-              ).data
-            );
-            router.push({
-              name: "hotelRestaurant",
-              query: {
-                ...City,
-                ...other,
-              },
-            });
-          } else if (selectedTypeCity.Type == "Home") {
-            resActivity.push(
-              ...(
-                await getTourismActivity(
-                  {
-                    city: selectedTypeCity.City.id,
-                  },
-                  "all"
-                )
-              ).data
-            );
-            router.push({
-              name: "index",
-              query: {
-                ...City,
-                ...other,
-              },
-            });
-          }
+        case "Home":
+          resArray.push(
+            ...(
+              await resApi(
+                {
+                  city: selectedTypeCity.City.id,
+                },
+                "all"
+              )
+            ).data
+          );
+          router.push({
+            name: "index",
+            query: {
+              ...City,
+              ...other,
+            },
+          });
           break;
       }
     }
