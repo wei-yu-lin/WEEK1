@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from "vue";
 import TaiwanLogo from "@/assets/images/TaiwanLogo.svg";
 import Circle from "@/assets/images/Circle.svg";
 import Square from "@/assets/images/Square.svg";
@@ -9,15 +8,14 @@ defineProps({
   msg: String,
 });
 
-const count = ref(0);
 </script>
 
 <template>
   <nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand ps-8" href="/">
+      <router-link class="navbar-brand ps-8" to="/">
         <TaiwanLogo />
-      </a>
+      </router-link>
 
       <div class="navbar-nav pe-8">
         <router-link class="nav-link navbar-font link-danger" to="/"
@@ -29,9 +27,9 @@ const count = ref(0);
           to="/hotelRestaurant"
           ><span class="pe-2"><Square /></span>美食住宿</router-link
         >
-        <router-link class="nav-link navbar-font link-success" to="#"
+        <!-- <router-link class="nav-link navbar-font link-success" to="#"
           ><span class="pe-2"><Circle /></span>景點交通</router-link
-        >
+        > -->
       </div>
     </div>
   </nav>
