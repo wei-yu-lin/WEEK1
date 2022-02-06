@@ -8,7 +8,7 @@
       <button class="arrow-icon" @click="cityMove(false, hotCity.length)">
         <font-awesome-icon icon="caret-left" class="text-light" />
       </button>
-      <ul class="hotCity-wrapper">
+      <ul class="hotCity-wrapper" ref="sliderConteainer">
         <li
           v-for="(item, index) in hotCity[page]"
           :key="`hotCity${index}`"
@@ -40,18 +40,23 @@
 </template>
 
 <script setup>
-import { inject, computed } from "vue";
+import { inject, computed,ref } from "vue";
 import ThemeTriangle from "@/assets/images/Theme-Triangle.svg";
 import { hotCityLogic } from "@/logic/homeHandle.js";
+// ref
+const sliderConteainer = ref(null)
 // inject
 const hotCity = inject("hotCity");
 const cityInputSearch = inject("cityInputSearch");
 
 const { cityMove, sortImage, page } = hotCityLogic();
-
+// computed
 const oddData = computed(() => {
   return sortImage(hotCity, page.value);
 });
+
+//
+
 </script>
 
 <style lang="scss" scoped>
