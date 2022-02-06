@@ -21,10 +21,7 @@
                 alt=""
               />
               <div class="restaurant_card-wrapper">
-                <img
-                  src="src/assets/images/HotCity-GPS.svg"
-                  class="restaurant-gps"
-                />
+                <font-awesome-icon icon="map-marker-alt" class="restaurant-gps" />
 
                 <p v-if="props.Category == 0" class="restaurant_card-address">
                   {{ hotelAddress(data.Address) }}
@@ -91,6 +88,6 @@ const hotelAddress = (address) => {
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/custom/home/restaurant.scss";
-@import "@/assets/scss/custom/home/city.scss";
+@import "@/assets/scss/custom/HotelRestaurant/restaurant.scss";
+@import "@/assets/scss/custom/ScenicSpot/city.scss";
 </style>

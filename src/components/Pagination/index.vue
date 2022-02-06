@@ -21,5 +21,5 @@ const props = defineProps({
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/custom/home/city.scss";
+@import "@/assets/scss/custom/ScenicSpot/city.scss";
 </style>

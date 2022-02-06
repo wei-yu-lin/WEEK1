@@ -18,11 +18,10 @@
               alt=""
             />
             <div class="restaurant_card-wrapper">
-              <img
-                src="src/assets/images/HotCity-GPS.svg"
-                class="restaurant-gps"
-              />
-              <p class="restaurant_card-address">{{hotelAddress(data.Address)}}</p>
+              <font-awesome-icon icon="map-marker-alt" class="restaurant-gps" />
+              <p class="restaurant_card-address">
+                {{ hotelAddress(data.Address) }}
+              </p>
             </div>
           </div>
         </div>
@@ -34,12 +33,14 @@
 <script setup>
 import { inject } from "vue";
 const restaurant = inject("restaurant");
-const hotelAddress = (address)=> {
-  const re = new RegExp('[\u4e00-\u9fa5]+','g');
-  return (address) ? address.match(re)[0]+address.match(re)[1].substring(0,3) : '';
-}
+const hotelAddress = (address) => {
+  const re = new RegExp("[\u4e00-\u9fa5]+", "g");
+  return address
+    ? address.match(re)[0] + address.match(re)[1].substring(0, 3)
+    : "";
+};
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/custom/home/restaurant.scss";
+@import "@/assets/scss/custom/HotelRestaurant/restaurant.scss";
 </style>

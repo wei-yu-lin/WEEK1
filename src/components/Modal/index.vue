@@ -52,5 +52,5 @@ const computedActivityTime = computed(()=>{
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/custom/home/activity.scss";
+@import "@/assets/scss/custom/ScenicSpot/activity.scss";
 </style>

@@ -40,5 +40,5 @@ routeQuery = computed(() => route.query);
 </script>
 
 <style lang="scss">
-@import "@/assets/scss/custom/home/index.scss";
+@import "@/assets/scss/custom/home.scss";
 </style>

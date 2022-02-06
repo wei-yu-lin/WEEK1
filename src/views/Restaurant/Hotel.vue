@@ -6,12 +6,7 @@
     </div>
     <div class="container mb-3">
       <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
-        <div
-          class="col"
-          v-for="(data, index) in hotel"
-          :key="`hotel_${index}`"
-        >
-
+        <div class="col" v-for="(data, index) in hotel" :key="`hotel_${index}`">
           <div class="border bg-light d-flex flex-column p-2">
             <img
               class="restaurant_card-image"
@@ -19,11 +14,10 @@
               alt=""
             />
             <div class="restaurant_card-wrapper">
-              <img
-                src="src/assets/images/HotCity-GPS.svg"
-                class="restaurant-gps"
-              />
-              <p class="restaurant_card-address">{{ hotelAddress(data.Address)}}</p>
+              <font-awesome-icon icon="map-marker-alt" class="restaurant-gps" />
+              <p class="restaurant_card-address">
+                {{ hotelAddress(data.Address) }}
+              </p>
             </div>
           </div>
         </div>
@@ -35,9 +29,9 @@
 <script setup>
 import { inject } from "vue";
 const hotel = inject("hotel");
-const hotelAddress = (address)=> (address) ? address.substring(0,6) : '';
+const hotelAddress = (address) => (address ? address.substring(0, 6) : "");
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/custom/home/restaurant.scss";
+@import "@/assets/scss/custom/HotelRestaurant/restaurant.scss";
 </style>

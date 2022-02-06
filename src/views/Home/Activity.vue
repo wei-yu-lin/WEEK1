@@ -9,12 +9,12 @@
       v-for="(Activity, index) in hotActivity"
       :key="index"
     >
-      <div class="card ">
-        <div class="row g-0" style="min-height: 242px;">
+      <div class="card">
+        <div class="row g-0" style="min-height: 242px">
           <div class="d-flex col-md-4 align-items-center">
             <img :src="Activity.imageArr[0]" class="activity-image rounded" />
           </div>
-          <div class="col-md-8 position-relative" >
+          <div class="col-md-8 position-relative">
             <div class="card-body justify-content-between" id="description">
               <h5 class="card-title text-truncate">
                 {{ Activity.ActivityName }}
@@ -24,11 +24,8 @@
               </p>
 
               <div class="activity-card-footer">
-                <div >
-                  <img
-                    src="src/assets/images/HotCity-GPS.svg"
-                    class="hotcity-gps"
-                  />
+                <div>
+                  <font-awesome-icon icon="map-marker-alt" class="hotcity-gps" />
                   <small class="text-muted">{{ Activity.Location }}</small>
                 </div>
                 <button
@@ -58,5 +55,5 @@ const hotActivity = inject("hotActivity");
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/custom/home/activity.scss";
+@import "@/assets/scss/custom/ScenicSpot/activity.scss";
 </style>

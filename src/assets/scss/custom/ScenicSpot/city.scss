@@ -1,3 +1,10 @@
+@mixin flex-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 ul {
   margin-block-start: 1em;
   margin-block-end: 1em;
@@ -10,12 +17,7 @@ ul {
   margin-top: 30px;
   align-items: center;
 }
-@mixin flex-center {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+
 .hotCity-wrapper {
   display: flex;
   height: 250px;

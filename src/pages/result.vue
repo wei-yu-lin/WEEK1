@@ -202,5 +202,5 @@ const switchStatus = (category) => {
 </script>
 
 <style scoped>
-@import "@/assets/scss/custom/home/restaurant.scss";
+@import "@/assets/scss/custom/HotelRestaurant/restaurant.scss";
 </style>

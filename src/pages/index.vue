@@ -7,7 +7,7 @@
       />
     </div>
   </div>
-  <div class="container">
+  <div class="container-lg">
     <template v-if="routeQuery.id != undefined">
       <SearchResultsTemp
         :City="routeQuery.id"
@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import { computed, inject, reactive, ref } from "vue";
+import { computed, inject, reactive } from "vue";
 import { useRoute } from "vue-router";
 import SearchFilter from "@/components/Search/index.vue";
 import NavBar from "@/components/Layout/NavBar.vue";
@@ -39,17 +39,9 @@ let routeQuery = reactive({});
 fetchData();
 routeQuery = computed(() => route.query);
 
-// watch(
-//   () => route.query,
-//   (count) => {
-//     if (count.city) {
-//       routeCity.value = count.city;
-//       routeType.value = count.type;
-//     }
-//   }
-// );
 </script>
 
+
 <style lang="scss">
-@import "@/assets/scss/custom/home/index.scss";
+@import "@/assets/scss/custom/home.scss";
 </style>

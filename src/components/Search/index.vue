@@ -1,9 +1,8 @@
 <template>
   <div class="d-flex justify-content-center align-items-center h-100">
     <div class="flex-column">
-      <h1 class="home-text">Welc<TextCircle />me t<TextSquare /> Taiwan</h1>
-
-      <p class="text-light fs-6 fw-light mb-3">
+      <h1 class="home-text d-none d-md-block">Welc<TextCircle />me t<TextSquare /> Taiwan</h1>
+      <p class="text-light fs-6 fw-light mb-3 d-none d-md-block">
         台北、台中、台南、屏東、宜蘭……遊遍台灣
       </p>
 
@@ -70,10 +69,10 @@
 import { inject, reactive, ref } from "vue";
 import TextCircle from "@/assets/images/Text-Circle.svg";
 import TextSquare from "@/assets/images/Text-Square.svg";
+const searchKeyword = ref("");
 const cityOptionSearch = inject("cityOptionSearch");
 const selectedTypeCity = inject("selectedTypeCity");
 const cityOptions = inject("cityOptions");
-const searchKeyword = ref("");
 const cityInputSearch = inject("cityInputSearch");
 const props = defineProps({
   Type: String,
@@ -88,3 +87,4 @@ switch (props.Type) {
     break;
 }
 </script>
+
