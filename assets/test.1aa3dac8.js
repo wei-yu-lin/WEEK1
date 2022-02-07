@@ -1,0 +1,1 @@
+import{r as o,s as r,c,e as n,o as t}from"./vendor.0a69c964.js";const u={setup(a){const e=o(null),s=o(null);return r(()=>{console.log(e.value)}),(l,f)=>(t(),c("div",{ref_key:"first",ref:e},[n("div",{ref_key:"second",ref:s},"\u9760\u5317",512)],512))}};export{u as default};
