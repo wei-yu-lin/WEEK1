@@ -15,20 +15,23 @@ ul {
   display: flex;
   flex-direction: row;
   margin-top: 30px;
-  align-items: center;
+  align-items: center; 
 }
 
 .hotCity-wrapper {
   display: flex;
   height: 250px;
   width: 100%;
-  overflow-x:scroll;
+  overflow-x: scroll;
   margin-bottom: -5px;
   padding-bottom: 5px;
   flex-wrap: wrap;
   flex-direction: column;
   align-content: center;
   justify-content: space-between;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .hotCity-content,

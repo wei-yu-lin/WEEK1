@@ -4,43 +4,31 @@
       <ThemeTriangle />
       <p class="ps-2 theme-text">熱門活動</p>
     </span>
-    <div
-      class="col-md-6 mb-3"
-      v-for="(Activity, index) in hotActivity"
-      :key="index"
-    >
+    <div class="col-md-6 col-12 mb-3" v-for="(Activity, index) in hotActivity" :key="index">
       <div class="card">
         <div class="row g-0" style="min-height: 242px">
-          <div class="d-flex col-md-4 align-items-center">
+          <div class="col-md-4 d-flex align-items-center">
             <img :src="Activity.imageArr[0]" class="activity-image rounded" />
           </div>
-          <div class="col-md-8 position-relative">
-            <div class="card-body justify-content-between" id="description">
-              <h5 class="card-title text-truncate">
-                {{ Activity.ActivityName }}
-              </h5>
-              <p class="activity-description">
-                {{ Activity.Description }}
-              </p>
-
-              <div class="activity-card-footer">
-                <div>
-                  <font-awesome-icon icon="map-marker-alt" class="hotcity-gps" />
-                  <small class="text-muted">{{ Activity.Location }}</small>
-                </div>
-                <button
-                  type="button"
-                  class="btn btn-outline-danger"
-                  data-bs-toggle="modal"
-                  :data-bs-target="`#hotactivity${index}`"
-                >
-                  活動詳情
-                </button>
+          <article class="col-md-8 position-relative">
+            <header class="card-body justify-content-between mb-3" id="description">
+              <h5 class="card-title text-truncate">{{ Activity.ActivityName }}</h5>
+              <p class="activity-description">{{ Activity.Description }}</p>
+            </header>
+            <footer class="activity-card-footer">
+              <div>
+                <font-awesome-icon icon="map-marker-alt" class="hotcity-gps" />
+                <small class="text-muted">{{ Activity.Location }}</small>
               </div>
-
-              <ActivityModal :seq="index" :activityData="Activity" />
-            </div>
-          </div>
+              <button
+                type="button"
+                class="btn btn-outline-danger"
+                data-bs-toggle="modal"
+                :data-bs-target="`#hotactivity${index}`"
+              >活動詳情</button>
+            </footer>
+            <ActivityModal :seq="index" :activityData="Activity" />
+          </article>
         </div>
       </div>
     </div>

@@ -1,7 +1,4 @@
 import { ref, reactive } from "vue";
-import { useRouter, useRoute } from "vue-router";
-import { city } from "@/tools/cityName.js";
-import { getScenicSpot } from "@/api";
 
 export function hotCityLogic() {
   const page = ref(0);
